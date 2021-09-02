@@ -50,9 +50,9 @@
   <ItemGroup>
     <Compile Include="Formaters\FrequencyFormStringParser.cs" />
     <Compile Include="Formaters\FrequencyValueToStringFormatter.cs" />
+    <Compile Include="Helpers\INPCBase.cs" />
     <Compile Include="ValueConverters\FrequencyValueConverter.cs" />
-    <Compile Include="ValueConverters\IncorrectValueToColorConverter.cs" />
-    <Compile Include="VM.cs" />
+    <Compile Include="ValueConverters\ValidityToColorConverter.cs" />
     <Page Include="FrequencyInputBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

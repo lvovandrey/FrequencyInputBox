@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace FrequencyInputBox.ValueConverters
 {
-    class IncorrectValueToColorConverter : IValueConverter
+    class ValidityToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

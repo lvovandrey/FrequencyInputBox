@@ -23,7 +23,23 @@ namespace FrequencyInputBox
         public FrequencyInputBox()
         {
             InitializeComponent();
-            this.DataContext = new VM();
+            DataContext = this;
         }
+
+        public bool Validity
+        {
+            get;
+            set;
+        }
+
+        public double Frequency
+        {
+            get;
+            set;
+        }
+
+        public static readonly DependencyProperty FrequencyProperty =
+            DependencyProperty.Register("Frequency", typeof(double), typeof(FrequencyInputBox));
+
     }
 }
