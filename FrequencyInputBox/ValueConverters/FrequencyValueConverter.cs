@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace FrequencyInputBox.ValueConverters
 {
-    class FrequencyValueConverter : IValueConverter
+    internal class FrequencyValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            double d=0;
+
+            if (value is string)
+                double.TryParse((string)value, out d);
+            
+            return d;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return DependencyProperty.UnsetValue;
         }
     }
 }

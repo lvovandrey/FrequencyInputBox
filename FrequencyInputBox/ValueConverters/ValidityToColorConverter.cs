@@ -1,19 +1,29 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace FrequencyInputBox.ValueConverters
 {
-    class ValidityToColorConverter : IValueConverter
+    internal class ValidityToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            Brush color = new SolidColorBrush(Colors.Red);
+
+
+            if (value != null && value is bool && (bool)value)
+            {
+                color = new SolidColorBrush(Colors.Green);
+            }
+
+            return color;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return DependencyProperty.UnsetValue;
         }
     }
 }

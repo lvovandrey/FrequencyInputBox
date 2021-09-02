@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FrequencyInputBox.Formaters
 {
-    class FrequencyFormStringParser
+    internal class FrequencyFormStringParser
     {
+
     }
 }

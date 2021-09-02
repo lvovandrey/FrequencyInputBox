@@ -29,7 +29,7 @@ namespace FrequencyInputBox
         public bool Validity
         {
             get;
-            set;
+            private set;
         }
 
         public double Frequency
