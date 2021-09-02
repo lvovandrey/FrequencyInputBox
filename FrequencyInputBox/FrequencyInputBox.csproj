@@ -51,8 +51,10 @@
     <Compile Include="Formaters\FrequencyFormStringParser.cs" />
     <Compile Include="Formaters\FrequencyValueToStringFormatter.cs" />
     <Compile Include="Helpers\INPCBase.cs" />
+    <Compile Include="Model\Frequency.cs" />
     <Compile Include="ValueConverters\FrequencyValueConverter.cs" />
     <Compile Include="ValueConverters\ValidityToColorConverter.cs" />
+    <Compile Include="VM.cs" />
     <Page Include="FrequencyInputBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

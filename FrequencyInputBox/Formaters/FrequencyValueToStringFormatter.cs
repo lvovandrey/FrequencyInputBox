@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrequencyInputBox.Model;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,21 +11,41 @@ namespace FrequencyInputBox.Formaters
 {
     public class FrequencyValueToStringFormatter
     {
-        
-        public VAL ConvertStringToVAL(string str) 
+        static string numberRegexString = @"(-|)\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)";
+
+        static string unitsRegexString = @"(Hz$)|(kHz$)";
+
+        static string[] validationRegexStrings = { @"(-|)\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)(Hz$)|(kHz$)", unitsRegexString };
+
+        string InputString;
+
+        public FrequencyValueToStringFormatter(string inputString)
+        {
+            InputString = inputString;
+        }
+
+        public bool IsStringValid()
+        {
+            foreach (var regexString in validationRegexStrings)
+            {
+                var validationMatches = Regex.Matches(InputString, regexString);
+                if (validationMatches.Count!=1) return false;
+            }
+            return true;
+        }
+
+        public Frequency ConvertStringToFrequency(string str) 
         {
             string temp_str = str.Replace(" ", "");
 
 
-            var mts = Regex.Matches(temp_str, @"(-|)\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)");
+            var mts = Regex.Matches(temp_str, numberRegexString);
 
-            var unitsMatches = Regex.Matches(temp_str, @"(Hz$)|(kHz$)");
+            var unitsMatches = Regex.Matches(temp_str, unitsRegexString);
 
-            var validMts = Regex.Matches(temp_str, @"(-|)\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)(Hz$)|(kHz$)");
 
-            if (validMts.Count != 1 || mts.Count !=1) return null;
 
-            VAL v = new VAL();
+            Frequency v = new Frequency();
             foreach (Match mt in mts) 
             { 
                 Console.WriteLine(mt.Value); 
@@ -34,7 +55,7 @@ namespace FrequencyInputBox.Formaters
             foreach (Match mt in unitsMatches)
             {
                 Console.WriteLine(mt.Value);
-                v.unit = VAL.ConvertStringToUnitType(mt.Value); 
+                v.unit = Frequency.ConvertStringToUnitType(mt.Value); 
             }
 
 
@@ -42,45 +63,5 @@ namespace FrequencyInputBox.Formaters
         }
     }
 
-    public enum UnitType
-    {
-        Hz,
-        kHz,
-        MHz,
-        GHz,
-        THz,
-        unknown
-    }
-
-    public class VAL
-    {
-        public double value;
-        public UnitType unit;
-
-        public double valueInHz
-        {
-            get
-            {
-                switch (unit)
-                {
-                    case UnitType.Hz: return value;
-                    case UnitType.kHz: return value * 1000;
-                    case UnitType.MHz: return value * 1_000_000;
-                    case UnitType.GHz: return value * 1_000_000_000;
-                    case UnitType.THz: return value * 1_000_000_000_000;
-                    default: return value;
-                }
-            }
-        }
-
-        internal static UnitType ConvertStringToUnitType(string value)
-        {
-            switch (value)
-            {
-                case "Hz": return UnitType.Hz;
-                case "kHz": return UnitType.kHz;
-                default: return UnitType.unknown;
-            }
-        }
-    }
+    
 }

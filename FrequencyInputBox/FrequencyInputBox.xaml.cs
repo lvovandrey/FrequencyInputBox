@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrequencyInputBox.Formaters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,19 +24,29 @@ namespace FrequencyInputBox
         public FrequencyInputBox()
         {
             InitializeComponent();
-            DataContext = this;
+            DataContext = new VM();
         }
 
         public bool Validity
         {
-            get;
+            get 
+            {
+                VM.Is                
+            }
             private set;
         }
 
+
         public double Frequency
         {
-            get;
-            set;
+            get 
+            {
+            
+            }
+            set 
+            {
+                
+            }
         }
 
         public static readonly DependencyProperty FrequencyProperty =
