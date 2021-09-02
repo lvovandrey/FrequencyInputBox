@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace FrequencyInputBoxDemo
 {
@@ -34,9 +36,21 @@ namespace FrequencyInputBoxDemo
             Console.Read();
         }
 
+        DispatcherTimer timer;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FrequencyInputBox1.Frequency = 777_000;
+            timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0,0, 10) }; 
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
+
+        double num = 0;
+
+        private void Timer_Tick(object sender, object e)
+        {
+            num++;
+            FrequencyInputBox1.Frequency=num*10;
+        }
+
     }
 }
