@@ -37,6 +37,12 @@ namespace FrequencyInputBox.Model
             }
         }
 
+        public void SetFromDouble(double value) //TODO: сделать логику при передаче данных более сложную
+        {
+            this.value = value;
+            unit = UnitType.Hz;
+        }
+
         internal static UnitType ConvertStringToUnitType(string value)
         {
             switch (value)

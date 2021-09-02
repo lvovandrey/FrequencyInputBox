@@ -36,7 +36,7 @@ namespace FrequencyInputBoxDemo
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new FrequencyInputBox.Formaters.FrequencyValueToStringFormatter().ConvertStringToVAL(TextBox1.Text);
+            new FrequencyInputBox.Formaters.FrequencyValueToStringFormatter(TextBox1.Text).ConvertStringToFrequency();
         }
     }
 }

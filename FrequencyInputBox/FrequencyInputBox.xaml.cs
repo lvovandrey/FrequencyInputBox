@@ -21,31 +21,23 @@ namespace FrequencyInputBox
     /// </summary>
     public partial class FrequencyInputBox : UserControl
     {
+        VM VM;
         public FrequencyInputBox()
         {
             InitializeComponent();
-            DataContext = new VM();
+            VM = new VM();
+            DataContext = VM;
         }
-
-        public bool Validity
-        {
-            get 
-            {
-                VM.Is                
-            }
-            private set;
-        }
-
 
         public double Frequency
         {
-            get 
+            get
             {
-            
+                return VM.frequency.Hz;
             }
-            set 
+            set
             {
-                
+                VM.frequency.SetFromDouble(value);
             }
         }
 

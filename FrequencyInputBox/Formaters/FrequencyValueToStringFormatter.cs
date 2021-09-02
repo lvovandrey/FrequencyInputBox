@@ -11,53 +11,42 @@ namespace FrequencyInputBox.Formaters
 {
     public class FrequencyValueToStringFormatter
     {
-        static string numberRegexString = @"(-|)\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)";
+        static string numberRegexString = @"\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)";
 
         static string unitsRegexString = @"(Hz$)|(kHz$)";
 
-        static string[] validationRegexStrings = { @"(-|)\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)(Hz$)|(kHz$)", unitsRegexString };
+        static string validationRegexString = @"^((\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|))+)?((Hz)|(kHz)?)$";
 
         string InputString;
 
         public FrequencyValueToStringFormatter(string inputString)
         {
-            InputString = inputString;
+            InputString = inputString.Replace(" ", "");
         }
 
         public bool IsStringValid()
         {
-            foreach (var regexString in validationRegexStrings)
-            {
-                var validationMatches = Regex.Matches(InputString, regexString);
-                if (validationMatches.Count!=1) return false;
-            }
+            var validationMatches = Regex.Matches(InputString, validationRegexString);
+            if (validationMatches.Count != 1)
+                return false;
+            
+            validationMatches = Regex.Matches(InputString, unitsRegexString);
+            if (validationMatches.Count > 1)
+                return false;
+
             return true;
         }
 
-        public Frequency ConvertStringToFrequency(string str) 
+        public Frequency ConvertStringToFrequency() 
         {
-            string temp_str = str.Replace(" ", "");
-
-
-            var mts = Regex.Matches(temp_str, numberRegexString);
-
-            var unitsMatches = Regex.Matches(temp_str, unitsRegexString);
-
-
+            var mts = Regex.Matches(InputString, numberRegexString);
+            var unitsMatches = Regex.Matches(InputString, unitsRegexString);
 
             Frequency v = new Frequency();
-            foreach (Match mt in mts) 
-            { 
-                Console.WriteLine(mt.Value); 
-                v.value += Double.Parse(mt.Value.Replace(',', '.'), CultureInfo.InvariantCulture); 
-            }
-
-            foreach (Match mt in unitsMatches)
-            {
-                Console.WriteLine(mt.Value);
-                v.unit = Frequency.ConvertStringToUnitType(mt.Value); 
-            }
-
+            if (mts.Count == 1)
+                v.value += double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
+            if (unitsMatches.Count == 1)
+                v.unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
 
             return v;
         }

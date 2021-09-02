@@ -13,7 +13,7 @@
     </UserControl.Resources>
     <Grid>
         <TextBox 
-            Text="{Binding Frequency, Converter={StaticResource FrequencyValueConverter}}" 
+            Text="{Binding InputString}" 
             BorderBrush="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}" />
     </Grid>
 </UserControl>
