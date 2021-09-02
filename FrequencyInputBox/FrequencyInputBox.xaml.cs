@@ -18,11 +18,12 @@ namespace FrequencyInputBox
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class FrequencyInputBox : UserControl
     {
-        public UserControl1()
+        public FrequencyInputBox()
         {
             InitializeComponent();
+            this.DataContext = new VM();
         }
     }
 }
