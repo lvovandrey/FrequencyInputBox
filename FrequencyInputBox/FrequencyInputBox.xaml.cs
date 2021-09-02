@@ -1,5 +1,4 @@
-﻿using FrequencyInputBox.Formaters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,11 +32,11 @@ namespace FrequencyInputBox
         {
             get
             {
-                return VM.frequency.Hz;
+                return VM.Frequency.Hz;
             }
             set
             {
-                VM.frequency.SetFromDouble(value);
+                VM.SetFrequencyFromDouble(value);
             }
         }
 

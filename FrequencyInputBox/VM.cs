@@ -1,5 +1,4 @@
-﻿using FrequencyInputBox.Formaters;
-using FrequencyInputBox.Helpers;
+﻿using FrequencyInputBox.Helpers;
 using FrequencyInputBox.Model;
 using System;
 using System.Collections.Generic;
@@ -11,14 +10,10 @@ namespace FrequencyInputBox
 {
     public class VM:INPCBase
     {
-        FrequencyValueToStringFormatter frequencyValueToStringFormatter;
-        
-
-        public VM()
+       public VM()
         {
-            InputString = "";
+            InputString = "0";
             frequency = new Frequency();
-            frequencyValueToStringFormatter = new FrequencyValueToStringFormatter(InputString);
             OnPropertyChanged("Validity");
         }
 
@@ -32,21 +27,37 @@ namespace FrequencyInputBox
             set 
             {
                 inputString = value;
-                frequencyValueToStringFormatter = new FrequencyValueToStringFormatter(inputString);
-                frequencyValueToStringFormatter.ConvertStringToFrequency();
                 OnPropertyChanged("Validity");
-                OnPropertyChanged("frequency");
+                OnPropertyChanged("Frequency");
             } 
         }
 
-        public Frequency frequency { get; set; }
+        private Frequency frequency;
+        public Frequency Frequency 
+        {
+            get 
+            {
+                return frequency;   
+            }
+            set 
+            {
+               frequency = Frequency.Parse(InputString);
+            } 
+        }
 
+        internal void SetFrequencyFromDouble(double value)
+        {
+            Frequency.SetFromDouble(value);
+            InputString = Frequency.ToString();
+            OnPropertyChanged("Frequency");
+            OnPropertyChanged("InputString");
+        }
 
         public bool Validity
         {
             get
             {
-                return frequencyValueToStringFormatter.IsStringValid();
+                return Validation.IsStringValid(InputString);
             }
         }
 

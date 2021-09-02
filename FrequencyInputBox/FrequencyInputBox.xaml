@@ -13,7 +13,8 @@
     </UserControl.Resources>
     <Grid>
         <TextBox 
-            Text="{Binding InputString}" 
-            BorderBrush="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}" />
+            Text="{Binding InputString,  UpdateSourceTrigger=PropertyChanged}" 
+            BorderBrush="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}"
+            Foreground="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}" />
     </Grid>
 </UserControl>

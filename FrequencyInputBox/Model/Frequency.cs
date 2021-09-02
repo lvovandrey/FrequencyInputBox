@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FrequencyInputBox.Model
@@ -43,6 +45,30 @@ namespace FrequencyInputBox.Model
             unit = UnitType.Hz;
         }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("");
+            sb.Append(value.ToString());
+            switch (unit)
+            {
+                case UnitType.Hz: sb.Append(" Hz");
+                    break;
+                case UnitType.kHz: sb.Append(" kHz");
+                    break;
+                case UnitType.MHz: sb.Append(" MHz");
+                    break;
+                case UnitType.GHz: sb.Append(" GHz");
+                    break;
+                case UnitType.THz: sb.Append(" THz");
+                    break;
+                case UnitType.unknown: sb.Append(" Unknown");
+                    break;
+                default: sb.Append(" Unknown");
+                    break;
+            }
+            return sb.ToString();
+        }
+
         internal static UnitType ConvertStringToUnitType(string value)
         {
             switch (value)
@@ -61,6 +87,20 @@ namespace FrequencyInputBox.Model
                 case "k": return UnitType.kHz;
                 default: return UnitType.unknown;
             }
+        }
+
+        public static Frequency Parse(string InputString)
+        {
+            var mts = Regex.Matches(InputString, RegularExpressionPatterns.numberPattern);
+            var unitsMatches = Regex.Matches(InputString, RegularExpressionPatterns.unitsPattern);
+
+            Frequency v = new Frequency();
+            if (mts.Count == 1)
+                v.value += double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
+            if (unitsMatches.Count == 1)
+                v.unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
+
+            return v;
         }
     }
 }
