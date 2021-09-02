@@ -10,8 +10,8 @@ namespace FrequencyInputBox.Model
     {
         public static string numberPattern = @"\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)";
 
-        public static string unitsPattern = @"(Hz$)|(kHz$)";
+        public static string unitsPattern = @"(Hz$)|(kHz$)|(k$)";
 
-        public static string fullStrValidationPattern = @"^((\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|))+)?((Hz)|(kHz)?)$";
+        public static string fullStrValidationPattern = @"^((\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|))+)?((Hz)|(kHz)|(k$)?)$";
     }
 }

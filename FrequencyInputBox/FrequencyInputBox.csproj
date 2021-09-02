@@ -52,7 +52,6 @@
     <Compile Include="Helpers\INPCBase.cs" />
     <Compile Include="Model\Frequency.cs" />
     <Compile Include="Model\RegularExpressionPatterns.cs" />
-    <Compile Include="ValueConverters\FrequencyValueConverter.cs" />
     <Compile Include="ValueConverters\ValidityToColorConverter.cs" />
     <Compile Include="VM.cs" />
     <Page Include="FrequencyInputBox.xaml">

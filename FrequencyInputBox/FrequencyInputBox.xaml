@@ -9,12 +9,14 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:ValidityToColorConverter x:Key="ValidityToColorConverter"/>
-        <converters:FrequencyValueConverter x:Key="FrequencyValueConverter"/>
     </UserControl.Resources>
     <Grid>
         <TextBox 
             Text="{Binding InputString,  UpdateSourceTrigger=PropertyChanged}" 
             BorderBrush="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}"
-            Foreground="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}" />
+            Foreground="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}" 
+            KeyUp="TextBox_KeyUp" 
+            LostFocus="TextBox_LostFocus"
+            />
     </Grid>
 </UserControl>

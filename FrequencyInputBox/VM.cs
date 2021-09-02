@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FrequencyInputBox
 {
-    public class VM:INPCBase
+    public class VM : INPCBase
     {
-       public VM()
+        public VM()
         {
             InputString = "0";
             frequency = new Frequency();
@@ -18,31 +18,33 @@ namespace FrequencyInputBox
         }
 
         private string inputString;
-        public string InputString 
+        public string InputString
         {
-            get 
+            get
             {
                 return inputString;
             }
-            set 
+            set
             {
                 inputString = value;
+                if (Validity)
+                    Frequency = Frequency.Parse(InputString);
                 OnPropertyChanged("Validity");
                 OnPropertyChanged("Frequency");
-            } 
+            }
         }
 
         private Frequency frequency;
-        public Frequency Frequency 
+        public Frequency Frequency
         {
-            get 
+            get
             {
-                return frequency;   
+                return frequency;
             }
-            set 
+            set
             {
-               frequency = Frequency.Parse(InputString);
-            } 
+                frequency = value;
+            }
         }
 
         internal void SetFrequencyFromDouble(double value)
@@ -53,6 +55,8 @@ namespace FrequencyInputBox
             OnPropertyChanged("InputString");
         }
 
+
+
         public bool Validity
         {
             get
@@ -61,6 +65,14 @@ namespace FrequencyInputBox
             }
         }
 
+        public void OnInputStringChanged()
+        {
+            InputString = Frequency.ToString();
+
+            OnPropertyChanged("Validity");
+            OnPropertyChanged("Frequency");
+            OnPropertyChanged("InputString");
+        }
 
 
     }
