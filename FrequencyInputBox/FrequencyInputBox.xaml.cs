@@ -21,64 +21,45 @@ namespace FrequencyInputBox
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class FrequencyInputBox : UserControl, INotifyPropertyChanged
+    public partial class FrequencyInputBox : UserControl
     {
         VM VM;
         public FrequencyInputBox()
         {
             InitializeComponent();
-            VM = new VM(FrequencyProperty);
+            VM = new VM();
             DataContext = VM;
         }
 
-        public double Frequency
+        public double Freq
         {
             get
             {
-                SetValue(FrequencyProperty, VM.Frequency.Hz);
-                return (double)GetValue(FrequencyProperty);
+               // SetValue(FreqProperty, VM.Frequency.Hz);
+                return (double)GetValue(FreqProperty);
             }
             set
             {
-                SetValue(FrequencyProperty, value);
+                SetValue(FreqProperty, value);
                 VM.SetFrequencyFromDouble(value);
             }
         }
 
-        public static readonly DependencyProperty FrequencyProperty =
-            DependencyProperty.Register("Frequency", 
-                typeof(double), typeof(FrequencyInputBox),
-                new FrameworkPropertyMetadata(new PropertyChangedCallback(FrequencyPropertyChangedCallback)));
-        public event PropertyChanged OnFrequencyChanged;
-
-        static void FrequencyPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (((FrequencyInputBox)d).OnFrequencyChanged != null)
-                ((FrequencyInputBox)d).OnFrequencyChanged(d, e);
-        }
+        public static readonly DependencyProperty FreqProperty =
+            DependencyProperty.Register("Freq", 
+                typeof(double), typeof(FrequencyInputBox));
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             if(e.Key==Key.Enter)
             {
                 VM.OnInputStringChanged();
-                OnPropertyChanged("Frequency");
             }
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             VM.OnInputStringChanged();
-            OnPropertyChanged("Frequency");
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

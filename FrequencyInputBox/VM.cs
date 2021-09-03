@@ -11,15 +11,12 @@ namespace FrequencyInputBox
 {
     public class VM : INPCBase
     {
-        public VM(DependencyProperty FrequencyProperty)
+        public VM()
         {
-            frequencyProperty = FrequencyProperty;
             InputString = "0";
             frequency = new Frequency();
             OnPropertyChanged("Validity");
         }
-
-        private DependencyProperty frequencyProperty;
 
         private string inputString;
         public string InputString

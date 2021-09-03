@@ -27,33 +27,23 @@ namespace FrequencyInputBoxDemo
         public MainWindow()
         {
             InitializeComponent();
-
-            double summ = 0;
-            string s = "Числа бывают разные: могут быть такие - 666, могут быть отр0.666ицательными -42, могут5e+1 быть дробными148.78 могут быть записаны 1602e+1 экспоненциально 1.602e-1";
-            var mts = Regex.Matches(s, @"(-|)\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)");
-            foreach (Match mt in mts) { Console.WriteLine(mt.Value); summ += Double.Parse(mt.Value.Replace(',', '.'), CultureInfo.InvariantCulture); }
-            Console.WriteLine("Сумма равна " + summ);
-            Console.Read();
+            DataContext = new VM();
         }
 
         DispatcherTimer timer;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-        //    TextBox1.Text = FrequencyInputBox1.Frequency.ToString();
-        //}
-        //private void A()
-        //{
-            timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0,0, 10) }; 
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            //timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0,0, 10) }; 
+            //timer.Tick += Timer_Tick;
+            //timer.Start();
         }
 
         double num = 0;
 
         private void Timer_Tick(object sender, object e)
         {
-            num++;
-            FrequencyInputBox1.Frequency=num*10;
+            //num++;
+            //FrequencyInputBox1.Freq=num*10;
         }
 
     }

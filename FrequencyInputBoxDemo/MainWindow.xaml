@@ -8,10 +8,19 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <fib:FrequencyInputBox x:Name="FrequencyInputBox1" Width="200" Height="20" />
-        <TextBox Width="222" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="TextBox1" 
-                 Text="{Binding ElementName=FrequencyInputBox1, Path=Frequency, Mode=TwoWay}"></TextBox>
+        <fib:FrequencyInputBox 
+            x:Name="FrequencyInputBox1" 
+            Freq="{Binding FrequencyTest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            Width="200" Height="20" />
+        <TextBox 
+            Width="222" Height="22" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            x:Name="TextBox1" 
+            Text="{Binding FrequencyTest}"/>
 
+        
+        
         <TextBox x:Name="Source" Width="200" Height="20" Margin="76,326,516,73"/>
         <TextBox Text="{Binding ElementName=Source, Path=Text}" Width="200" Height="20" Margin="344,326,248,73"/>
         <Button Margin="240,8,434,382" Click="Button_Click" />

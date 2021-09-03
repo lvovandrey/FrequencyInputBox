@@ -39,10 +39,19 @@ namespace FrequencyInputBox.Model
             }
         }
 
-        public void SetFromDouble(double value) //TODO: сделать логику при передаче данных более сложную
+        public void SetFromDouble(double value) 
         {
             this.value = value;
-            unit = UnitType.Hz;
+            if (value >= 0 && value < 1000)
+                unit = UnitType.Hz;
+            if (value >= 1000 && value < 1_000_000)
+                unit = UnitType.kHz;
+            if (value >= 1_000_000 && value < 1_000_000_000)
+                unit = UnitType.MHz;
+            if (value >= 1_000_000_000 && value < 1_000_000_000_000)
+                unit = UnitType.GHz;
+            if (value >= 1_000_000_000_000 && value < 1_000_000_000_000_000)
+                unit = UnitType.THz;
         }
 
         public override string ToString()
