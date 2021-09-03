@@ -68,6 +68,7 @@ namespace FrequencyInputBox
         #region InputString
         string FrequencyToInputString(double frequency)
         {
+
             return frequency.ToString() + " Hz";
         }
         double InputStringToFrequencyValue(string str)
@@ -88,7 +89,7 @@ namespace FrequencyInputBox
                 //inputString = value;
                 FrequencyValue = InputStringToFrequencyValue(value);
                 OnPropertyChanged("FrequencyValue");
-                Frequency = Frequency.Parse(value);
+                Frequency = Frequency.FromString(value);
                 OnPropertyChanged("Frequency");
             }
         }

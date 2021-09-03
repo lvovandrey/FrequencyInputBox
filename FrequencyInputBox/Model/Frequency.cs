@@ -14,102 +14,115 @@ namespace FrequencyInputBox.Model
         kHz,
         MHz,
         GHz,
-        THz,
         unknown
     }
 
     public class Frequency
     {
-        public double value;
-        public UnitType unit;
+        public double FormatingValue;
+        public UnitType Unit;
 
-        public double Hz
+        public double ToHzInDouble
         {
             get
             {
-                switch (unit)
+                switch (Unit)
                 {
-                    case UnitType.Hz: return value;
-                    case UnitType.kHz: return value * 1000;
-                    case UnitType.MHz: return value * 1_000_000;
-                    case UnitType.GHz: return value * 1_000_000_000;
-                    case UnitType.THz: return value * 1_000_000_000_000;
-                    default: return value;
+                    case UnitType.Hz: return FormatingValue;
+                    case UnitType.kHz: return FormatingValue * 1000;
+                    case UnitType.MHz: return FormatingValue * 1_000_000;
+                    case UnitType.GHz: return FormatingValue * 1_000_000_000;
+                    default: return FormatingValue;
                 }
             }
         }
 
-        public void SetFromDouble(double value) 
+        public void FromHzInDouble(double value)
         {
-            this.value = value;
             if (value >= 0 && value < 1000)
-                unit = UnitType.Hz;
+            {
+                Unit = UnitType.Hz;
+                FormatingValue = value;
+            }
             if (value >= 1000 && value < 1_000_000)
-                unit = UnitType.kHz;
+            {
+                Unit = UnitType.kHz;
+                FormatingValue = value / 1000;
+            }
             if (value >= 1_000_000 && value < 1_000_000_000)
-                unit = UnitType.MHz;
+            {
+                Unit = UnitType.MHz;
+                FormatingValue = value/1000_000;
+            }
             if (value >= 1_000_000_000 && value < 1_000_000_000_000)
-                unit = UnitType.GHz;
-            if (value >= 1_000_000_000_000 && value < 1_000_000_000_000_000)
-                unit = UnitType.THz;
+            {
+                Unit = UnitType.GHz;
+                FormatingValue = value/1000_000_000;
+            }
         }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder("");
-            sb.Append(value.ToString());
-            switch (unit)
+            sb.Append(FormatingValue.ToString());
+            switch (Unit)
             {
-                case UnitType.Hz: sb.Append(" Hz");
+                case UnitType.Hz:
+                    sb.Append(" Hz");
                     break;
-                case UnitType.kHz: sb.Append(" kHz");
+                case UnitType.kHz:
+                    sb.Append(" kHz");
                     break;
-                case UnitType.MHz: sb.Append(" MHz");
+                case UnitType.MHz:
+                    sb.Append(" MHz");
                     break;
-                case UnitType.GHz: sb.Append(" GHz");
+                case UnitType.GHz:
+                    sb.Append(" GHz");
                     break;
-                case UnitType.THz: sb.Append(" THz");
+                case UnitType.unknown:
+                    sb.Append(" Unknown");
                     break;
-                case UnitType.unknown: sb.Append(" Unknown");
-                    break;
-                default: sb.Append(" Unknown");
+                default:
+                    sb.Append(" Unknown");
                     break;
             }
             return sb.ToString();
         }
 
-        internal static UnitType ConvertStringToUnitType(string value)
-        {
-            switch (value)
-            {
-                case "Hz": 
-                case "Гц":
-                case "Г":
-                case "H":
-                case "г":
-                case "h": return UnitType.Hz;
-                case "kHz":
-                case "кГц":
-                case "К":
-                case "K":
-                case "к":
-                case "k": return UnitType.kHz;
-                default: return UnitType.unknown;
-            }
-        }
-
-        public static Frequency Parse(string InputString)
+        public static Frequency FromString(string InputString)
         {
             var mts = Regex.Matches(InputString, RegularExpressionPatterns.numberPattern);
             var unitsMatches = Regex.Matches(InputString, RegularExpressionPatterns.unitsPattern);
 
             Frequency v = new Frequency();
             if (mts.Count == 1)
-                v.value += double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
+                v.FormatingValue += double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
             if (unitsMatches.Count == 1)
-                v.unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
+                v.Unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
 
             return v;
+        }
+
+        internal static UnitType ConvertStringToUnitType(string value)
+        {
+            switch (value)
+            {
+                case "Hz":
+                case "Гц":
+                case "H":
+                case "h": return UnitType.Hz;
+                case "kHz":
+                case "кГц":
+                case "К":
+                case "k": return UnitType.kHz;
+                case "MHz":
+                case "МГц":
+                case "M": return UnitType.MHz;
+                case "GHz":
+                case "ГГц":
+                case "G": return UnitType.GHz;
+                default: return UnitType.unknown;
+            }
         }
     }
 }
