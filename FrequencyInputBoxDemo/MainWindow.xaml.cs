@@ -33,18 +33,22 @@ namespace FrequencyInputBoxDemo
         DispatcherTimer timer;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0,0, 10) }; 
-            //timer.Tick += Timer_Tick;
-            //timer.Start();
+            timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 10) };
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
 
         double num = 0;
 
         private void Timer_Tick(object sender, object e)
         {
-            //num++;
-            //FrequencyInputBox1.Freq=num*10;
+            num++;
+            FrequencyInputBox1.FrequencyValue = num * 10;
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            timer?.Stop();
+        }
     }
 }

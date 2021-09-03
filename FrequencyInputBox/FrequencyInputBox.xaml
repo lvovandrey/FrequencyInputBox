@@ -15,8 +15,6 @@
             Text="{Binding InputString,  UpdateSourceTrigger=PropertyChanged}" 
             BorderBrush="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}"
             Foreground="{Binding Validity, Converter={StaticResource ValidityToColorConverter}}" 
-            KeyUp="TextBox_KeyUp" 
-            LostFocus="TextBox_LostFocus"
             />
     </Grid>
 </UserControl>

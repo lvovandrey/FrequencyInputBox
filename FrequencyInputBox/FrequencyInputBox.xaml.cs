@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrequencyInputBox.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -21,45 +22,138 @@ namespace FrequencyInputBox
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class FrequencyInputBox : UserControl
+    public partial class FrequencyInputBox : UserControl, INotifyPropertyChanged
     {
-        VM VM;
         public FrequencyInputBox()
         {
             InitializeComponent();
-            VM = new VM();
-            DataContext = VM;
+            DataContext = this;
+            OnFrequencyValueChanged += FrequencyInputBox_OnFrequencyValueChanged;
         }
 
-        public double Freq
+        #region FrequencyValue
+        public double FrequencyValue
         {
             get
             {
-               // SetValue(FreqProperty, VM.Frequency.Hz);
-                return (double)GetValue(FreqProperty);
+                return (double)GetValue(FrequencyValueProperty);
             }
             set
             {
-                SetValue(FreqProperty, value);
-                VM.SetFrequencyFromDouble(value);
+                SetValue(FrequencyValueProperty, value);
             }
         }
 
-        public static readonly DependencyProperty FreqProperty =
-            DependencyProperty.Register("Freq", 
-                typeof(double), typeof(FrequencyInputBox));
+        public static readonly DependencyProperty FrequencyValueProperty =
+            DependencyProperty.Register("FrequencyValue", 
+                typeof(double), typeof(FrequencyInputBox),
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(FrequencyValuePropertyChangedCallback)));
 
-        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+
+        private static void FrequencyValuePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(e.Key==Key.Enter)
+            if (((FrequencyInputBox)d).OnFrequencyValueChanged != null)
+                ((FrequencyInputBox)d).OnFrequencyValueChanged(d, e);
+        }
+        public event PropertyChanged OnFrequencyValueChanged;
+
+        private void FrequencyInputBox_OnFrequencyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            inputString = FrequencyToInputString(FrequencyValue);
+            OnPropertyChanged("InputString");
+        }
+        #endregion
+
+        #region InputString
+        string FrequencyToInputString(double frequency)
+        {
+            return frequency.ToString() + "Hz";
+        }
+        double InputStringToFrequencyValue(string str)
+        {
+            var tmpstr = str.Replace("Hz", "").Replace(" ", "");
+            double frq = double.Parse(tmpstr);
+            return frq;
+        }
+
+        private string inputString;
+        public string InputString
+        {
+            get
             {
-                VM.OnInputStringChanged();
+                return inputString;
+            }
+            set
+            {
+                inputString = value;
+                FrequencyValue = InputStringToFrequencyValue(value);
+                OnPropertyChanged("FrequencyValue");
             }
         }
+        #endregion
 
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        //private Frequency frequency;
+        //public Frequency Frequency
+        //{
+        //    get
+        //    {
+        //        return frequency;
+        //    }
+        //    set
+        //    {
+        //        frequency = value;
+        //    }
+        //}
+
+        //internal void SetFrequencyFromDouble(double value)
+        //{
+        //    Frequency.SetFromDouble(value);
+        //    InputString = Frequency.ToString();
+        //    OnPropertyChanged("Frequency");
+        //    OnPropertyChanged("InputString");
+        //}
+
+
+
+        //public bool Validity
+        //{
+        //    get
+        //    {
+        //        return Validation.IsStringValid(InputString);
+        //    }
+        //}
+
+        //public void OnInputStringChanged()
+        //{
+        //    InputString = Frequency.ToString();
+
+        //    OnPropertyChanged("Validity");
+        //    OnPropertyChanged("Frequency");
+        //    OnPropertyChanged("InputString");
+        //}
+
+        //private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        //{
+        //    if(e.Key==Key.Enter)
+        //    {
+        //        VM.OnInputStringChanged();
+        //    }
+        //}
+
+        //private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    VM.OnInputStringChanged();
+        //}
+
+        #region INPCImlementation
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            VM.OnInputStringChanged();
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+
         }
+        #endregion
     }
 }
