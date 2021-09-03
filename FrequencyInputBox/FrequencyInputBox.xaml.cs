@@ -27,6 +27,7 @@ namespace FrequencyInputBox
         public FrequencyInputBox()
         {
             InitializeComponent();
+            Frequency = new Frequency();
             DataContext = this;
             OnFrequencyValueChanged += FrequencyInputBox_OnFrequencyValueChanged;
         }
@@ -59,7 +60,7 @@ namespace FrequencyInputBox
 
         private void FrequencyInputBox_OnFrequencyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            inputString = FrequencyToInputString(FrequencyValue);
+            InputString = FrequencyToInputString(FrequencyValue);
             OnPropertyChanged("InputString");
         }
         #endregion
@@ -67,7 +68,7 @@ namespace FrequencyInputBox
         #region InputString
         string FrequencyToInputString(double frequency)
         {
-            return frequency.ToString() + "Hz";
+            return frequency.ToString() + " Hz";
         }
         double InputStringToFrequencyValue(string str)
         {
@@ -76,34 +77,35 @@ namespace FrequencyInputBox
             return frq;
         }
 
-        private string inputString;
         public string InputString
         {
             get
             {
-                return inputString;
+                return Frequency.ToString();
             }
             set
             {
-                inputString = value;
+                //inputString = value;
                 FrequencyValue = InputStringToFrequencyValue(value);
                 OnPropertyChanged("FrequencyValue");
+                Frequency = Frequency.Parse(value);
+                OnPropertyChanged("Frequency");
             }
         }
         #endregion
 
-        //private Frequency frequency;
-        //public Frequency Frequency
-        //{
-        //    get
-        //    {
-        //        return frequency;
-        //    }
-        //    set
-        //    {
-        //        frequency = value;
-        //    }
-        //}
+        private Frequency frequency;
+        public Frequency Frequency
+        {
+            get
+            {
+                return frequency;
+            }
+            set
+            {
+                frequency = value;
+            }
+        }
 
         //internal void SetFrequencyFromDouble(double value)
         //{
