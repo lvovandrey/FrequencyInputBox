@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,13 +21,13 @@ namespace FrequencyInputBox
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class FrequencyInputBox : UserControl
+    public partial class FrequencyInputBox : UserControl, INotifyPropertyChanged
     {
         VM VM;
         public FrequencyInputBox()
         {
             InitializeComponent();
-            VM = new VM();
+            VM = new VM(FrequencyProperty);
             DataContext = VM;
         }
 
@@ -34,8 +35,8 @@ namespace FrequencyInputBox
         {
             get
             {
+                SetValue(FrequencyProperty, VM.Frequency.Hz);
                 return (double)GetValue(FrequencyProperty);
-                return VM.Frequency.Hz;
             }
             set
             {
@@ -49,6 +50,7 @@ namespace FrequencyInputBox
                 typeof(double), typeof(FrequencyInputBox),
                 new FrameworkPropertyMetadata(new PropertyChangedCallback(FrequencyPropertyChangedCallback)));
         public event PropertyChanged OnFrequencyChanged;
+
         static void FrequencyPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (((FrequencyInputBox)d).OnFrequencyChanged != null)
@@ -60,12 +62,23 @@ namespace FrequencyInputBox
             if(e.Key==Key.Enter)
             {
                 VM.OnInputStringChanged();
+                OnPropertyChanged("Frequency");
             }
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             VM.OnInputStringChanged();
+            OnPropertyChanged("Frequency");
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

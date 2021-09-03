@@ -5,17 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FrequencyInputBox
 {
     public class VM : INPCBase
     {
-        public VM()
+        public VM(DependencyProperty FrequencyProperty)
         {
+            frequencyProperty = FrequencyProperty;
             InputString = "0";
             frequency = new Frequency();
             OnPropertyChanged("Validity");
         }
+
+        private DependencyProperty frequencyProperty;
 
         private string inputString;
         public string InputString

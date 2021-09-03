@@ -39,10 +39,10 @@ namespace FrequencyInputBoxDemo
         DispatcherTimer timer;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TextBox1.Text = FrequencyInputBox1.Frequency.ToString();
-        }
-        private void A()
-        {
+        //    TextBox1.Text = FrequencyInputBox1.Frequency.ToString();
+        //}
+        //private void A()
+        //{
             timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0,0, 10) }; 
             timer.Tick += Timer_Tick;
             timer.Start();
