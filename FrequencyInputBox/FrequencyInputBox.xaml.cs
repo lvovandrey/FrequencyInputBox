@@ -19,11 +19,18 @@ namespace FrequencyInputBox
 {
     public delegate void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e);
 
+    enum FrequencyChangingSource
+    {
+        InputString,
+        FrequencyValue
+    }
+
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
     public partial class FrequencyInputBox : UserControl, INotifyPropertyChanged
     {
+        FrequencyChangingSource frequencyChangingSource;
         public FrequencyInputBox()
         {
             InitializeComponent();
@@ -60,15 +67,14 @@ namespace FrequencyInputBox
 
         private void FrequencyInputBox_OnFrequencyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            InputString = FrequencyToInputString(FrequencyValue);
-            OnPropertyChanged("InputString");
+            Frequency.FromHzInDouble(FrequencyValue);
+            OnSetFrequencyFromDouble();
         }
         #endregion
 
         #region InputString
         string FrequencyToInputString(double frequency)
         {
-
             return frequency.ToString() + " Hz";
         }
         double InputStringToFrequencyValue(string str)
@@ -86,11 +92,10 @@ namespace FrequencyInputBox
             }
             set
             {
-                //inputString = value;
-                FrequencyValue = InputStringToFrequencyValue(value);
-                OnPropertyChanged("FrequencyValue");
+
                 Frequency = Frequency.FromString(value);
                 OnPropertyChanged("Frequency");
+                OnSetFrequencyFromInputString();
             }
         }
         #endregion
@@ -107,6 +112,21 @@ namespace FrequencyInputBox
                 frequency = value;
             }
         }
+
+        
+
+        void OnSetFrequencyFromInputString()
+        { 
+             FrequencyValue = Frequency.ToHzInDouble();
+             OnPropertyChanged("FrequencyValue");
+        }
+
+        void OnSetFrequencyFromDouble()
+        {
+            InputString = Frequency.ToString();
+            OnPropertyChanged("InputString");
+        }
+
 
         //internal void SetFrequencyFromDouble(double value)
         //{

@@ -22,22 +22,19 @@ namespace FrequencyInputBox.Model
         public double FormatingValue;
         public UnitType Unit;
 
-        public double ToHzInDouble
+        public double ToHzInDouble()
         {
-            get
+            switch (Unit)
             {
-                switch (Unit)
-                {
-                    case UnitType.Hz: return FormatingValue;
-                    case UnitType.kHz: return FormatingValue * 1000;
-                    case UnitType.MHz: return FormatingValue * 1_000_000;
-                    case UnitType.GHz: return FormatingValue * 1_000_000_000;
-                    default: return FormatingValue;
-                }
+                case UnitType.Hz: return FormatingValue;
+                case UnitType.kHz: return FormatingValue * 1000;
+                case UnitType.MHz: return FormatingValue * 1_000_000;
+                case UnitType.GHz: return FormatingValue * 1_000_000_000;
+                default: return FormatingValue;
             }
         }
 
-        public void FromHzInDouble(double value)
+        public void FromHzInDouble(double value) //TODO: сделать статической
         {
             if (value >= 0 && value < 1000)
             {
@@ -52,16 +49,16 @@ namespace FrequencyInputBox.Model
             if (value >= 1_000_000 && value < 1_000_000_000)
             {
                 Unit = UnitType.MHz;
-                FormatingValue = value/1000_000;
+                FormatingValue = value / 1000_000;
             }
             if (value >= 1_000_000_000 && value < 1_000_000_000_000)
             {
                 Unit = UnitType.GHz;
-                FormatingValue = value/1000_000_000;
+                FormatingValue = value / 1000_000_000;
             }
         }
 
-        public override string ToString()
+        public override string ToString()//TODO: сделать статической
         {
             StringBuilder sb = new StringBuilder("");
             sb.Append(FormatingValue.ToString());
