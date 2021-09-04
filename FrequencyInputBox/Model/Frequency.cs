@@ -22,7 +22,24 @@ namespace FrequencyInputBox.Model
         public double FormatingValue;
         public UnitType Unit;
 
-        public double ToHzInDouble()
+        public double Hz
+        {
+            get { return ToHzInDouble(); }
+            set { FromHzInDouble(value); }
+        }
+        private string inputString;
+        public string InputString
+        { 
+            get { return inputString; }
+            set 
+            {
+                inputString = value;
+                FromString(inputString);
+            }
+        }
+
+
+        private double ToHzInDouble()
         {
             switch (Unit)
             {
@@ -34,7 +51,7 @@ namespace FrequencyInputBox.Model
             }
         }
 
-        public void FromHzInDouble(double value) //TODO: сделать статической
+        private void FromHzInDouble(double value)
         {
             if (value >= 0 && value < 1000)
             {
@@ -58,7 +75,7 @@ namespace FrequencyInputBox.Model
             }
         }
 
-        public override string ToString()//TODO: сделать статической
+        public void GeneteateNewInputString()
         {
             StringBuilder sb = new StringBuilder("");
             sb.Append(FormatingValue.ToString());
@@ -83,24 +100,22 @@ namespace FrequencyInputBox.Model
                     sb.Append(" Unknown");
                     break;
             }
-            return sb.ToString();
+            inputString = sb.ToString();
         }
 
-        public static Frequency FromString(string InputString)
+        private void FromString(string str)
         {
-            var mts = Regex.Matches(InputString, RegularExpressionPatterns.numberPattern);
-            var unitsMatches = Regex.Matches(InputString, RegularExpressionPatterns.unitsPattern);
+            var mts = Regex.Matches(str, RegularExpressionPatterns.numberPattern);
+            var unitsMatches = Regex.Matches(str, RegularExpressionPatterns.unitsPattern);
 
-            Frequency v = new Frequency();
             if (mts.Count == 1)
-                v.FormatingValue += double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
+                FormatingValue += double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
             if (unitsMatches.Count == 1)
-                v.Unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
+                Unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
 
-            return v;
         }
 
-        internal static UnitType ConvertStringToUnitType(string value)
+        private static UnitType ConvertStringToUnitType(string value)
         {
             switch (value)
             {

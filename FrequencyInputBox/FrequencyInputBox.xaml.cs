@@ -73,16 +73,7 @@ namespace FrequencyInputBox
         #endregion
 
         #region InputString
-        string FrequencyToInputString(double frequency)
-        {
-            return frequency.ToString() + " Hz";
-        }
-        double InputStringToFrequencyValue(string str)
-        {
-            var tmpstr = str.Replace("Hz", "").Replace(" ", "");
-            double frq = double.Parse(tmpstr);
-            return frq;
-        }
+
 
         public string InputString
         {
