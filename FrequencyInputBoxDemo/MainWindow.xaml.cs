@@ -24,12 +24,16 @@ namespace FrequencyInputBoxDemo
     /// </summary>
     public partial class MainWindow : Window
     {
+        VM vm;
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new VM();
+            vm = new VM();
+            DataContext = vm;
         }
 
+
+        #region Тест для контрола - 
         DispatcherTimer timer;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -38,17 +42,16 @@ namespace FrequencyInputBoxDemo
             timer.Start();
         }
 
-        double num = 0;
-
+        
         private void Timer_Tick(object sender, object e)
         {
-            num++;
-            FrequencyInputBox1.FrequencyValue = num * 10;
+            vm.FrequencyTest++;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             timer?.Stop();
         }
+        #endregion
     }
 }

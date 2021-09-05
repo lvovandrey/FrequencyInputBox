@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace FrequencyInputBox.Model
 {
@@ -19,14 +15,34 @@ namespace FrequencyInputBox.Model
 
     public class Frequency
     {
+        #region ctor
+        public Frequency()
+        {
+            FormatingValue = 0;
+            Unit = UnitType.Hz;
+            GeneteateNewInputString();
+        }
+
+        public Frequency(double hz, UnitType unitType = UnitType.Hz)
+        {
+            Unit = unitType;
+            CalculateFormatingValueFromHz(hz, unitType);
+            GeneteateNewInputString();
+        }
+
+        public Frequency(string inputString)
+        {
+            InputString = inputString;
+        }
+        #endregion
+
+        #region Properties
         public double FormatingValue { get; private set; }
+
         public UnitType Unit { get; private set; }
 
-        public double Hz
-        {
-            get { return ToHzInDouble(); }
-            set { FromHzInDouble(value); }
-        }
+        public double Hz => ConvertToHz();
+
         private string inputString;
         public string InputString
         {
@@ -37,9 +53,10 @@ namespace FrequencyInputBox.Model
                 FromString(inputString);
             }
         }
+        #endregion
 
-
-        private double ToHzInDouble()
+        #region Methods
+        private double ConvertToHz()
         {
             switch (Unit)
             {
@@ -51,54 +68,19 @@ namespace FrequencyInputBox.Model
             }
         }
 
-
-
-        public Frequency()
+        private void CalculateFormatingValueFromHz(double hz, UnitType unitType)
         {
-            FormatingValue = 0;
-            Unit = UnitType.Hz;
-        }
-
-        public Frequency(double Hz, UnitType unitType = UnitType.Hz)
-        {
-            Unit = unitType;
             switch (Unit)
             {
-                case UnitType.Hz: FormatingValue = Hz; break;
-                case UnitType.kHz: FormatingValue = Hz/1000; break;
-                case UnitType.MHz: FormatingValue = Hz/1000_000; break;
-                case UnitType.GHz: FormatingValue = Hz/1000_000_000; break;
-                default: FormatingValue = Hz; break;
+                case UnitType.Hz: FormatingValue = hz; break;
+                case UnitType.kHz: FormatingValue = hz / 1000; break;
+                case UnitType.MHz: FormatingValue = hz / 1000_000; break;
+                case UnitType.GHz: FormatingValue = hz / 1000_000_000; break;
+                default: FormatingValue = hz; break;
             }
         }
 
-
-
-        private void FromHzInDouble(double value)
-        {
-            if (value >= 0 && value < 1000)
-            {
-                Unit = UnitType.Hz;
-                FormatingValue = value;
-            }
-            if (value >= 1000 && value < 1_000_000)
-            {
-                Unit = UnitType.kHz;
-                FormatingValue = value / 1000;
-            }
-            if (value >= 1_000_000 && value < 1_000_000_000)
-            {
-                Unit = UnitType.MHz;
-                FormatingValue = value / 1000_000;
-            }
-            if (value >= 1_000_000_000 && value < 1_000_000_000_000)
-            {
-                Unit = UnitType.GHz;
-                FormatingValue = value / 1000_000_000;
-            }
-        }
-
-        public void GeneteateNewInputString()
+        private void GeneteateNewInputString()
         {
             StringBuilder sb = new StringBuilder("");
             sb.Append(FormatingValue.ToString());
@@ -160,6 +142,7 @@ namespace FrequencyInputBox.Model
                 default: return UnitType.unknown;
             }
         }
+        #endregion
     }
 }
 

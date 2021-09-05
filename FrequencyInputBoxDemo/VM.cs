@@ -8,7 +8,6 @@ namespace FrequencyInputBoxDemo
 {
     public class VM: INPCBase
     {
-
         private double frequencyTest;
         public double FrequencyTest 
         {
