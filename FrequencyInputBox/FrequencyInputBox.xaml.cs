@@ -25,7 +25,7 @@ namespace FrequencyInputBox
     /// </summary>
     public partial class FrequencyInputBox : UserControl, INotifyPropertyChanged
     {
-
+        bool IsInputStrSource = false;
         public FrequencyInputBox()
         {
             InitializeComponent();
@@ -62,13 +62,19 @@ namespace FrequencyInputBox
 
         private void FrequencyInputBox_OnFrequencyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Frequency.Hz = FrequencyValue;
-            if (frequencyChangingSource != FrequencyChangingSource.InputString)
+            if (!IsInputStrSource)
             {
-                Frequency.InputString = FrequencyValue.ToString() + " Hz";
+                Frequency = new Frequency(FrequencyValue);
+                Frequency.GeneteateNewInputString();
+                InputString = Frequency.InputString;
                 OnPropertyChanged("InputString");
-                frequencyChangingSource = FrequencyChangingSource.InputString;
             }
+            else
+            {
+                Frequency = new Frequency(FrequencyValue, Frequency.Unit);//?? 
+                Frequency.GeneteateNewInputString();
+            }
+            IsInputStrSource = false;
         }
         #endregion
 
@@ -83,14 +89,10 @@ namespace FrequencyInputBox
             }
             set
             {
-                frequencyChangingSource = FrequencyChangingSource.InputString;
-                FrequencyValue = Frequency.Hz;
-                
+                IsInputStrSource = true;
                 Frequency.InputString = value;
-                //OnPropertyChanged("Frequency");
-                
-                //                OnPropertyChanged("FrequencyValue");
-                
+
+                FrequencyValue = Frequency.Hz;
             }
         }
         #endregion

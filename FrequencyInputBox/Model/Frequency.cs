@@ -19,8 +19,8 @@ namespace FrequencyInputBox.Model
 
     public class Frequency
     {
-        public double FormatingValue;
-        public UnitType Unit;
+        public double FormatingValue { get; private set; }
+        public UnitType Unit { get; private set; }
 
         public double Hz
         {
@@ -50,6 +50,29 @@ namespace FrequencyInputBox.Model
                 default: return FormatingValue;
             }
         }
+
+
+
+        public Frequency()
+        {
+            FormatingValue = 0;
+            Unit = UnitType.Hz;
+        }
+
+        public Frequency(double Hz, UnitType unitType = UnitType.Hz)
+        {
+            Unit = unitType;
+            switch (Unit)
+            {
+                case UnitType.Hz: FormatingValue = Hz; break;
+                case UnitType.kHz: FormatingValue = Hz/1000; break;
+                case UnitType.MHz: FormatingValue = Hz/1000_000; break;
+                case UnitType.GHz: FormatingValue = Hz/1000_000_000; break;
+                default: FormatingValue = Hz; break;
+            }
+        }
+
+
 
         private void FromHzInDouble(double value)
         {
@@ -112,7 +135,8 @@ namespace FrequencyInputBox.Model
                 FormatingValue = double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
             if (unitsMatches.Count == 1)
                 Unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
-
+            if (unitsMatches.Count == 0)
+                Unit = UnitType.Hz;
         }
 
         private static UnitType ConvertStringToUnitType(string value)
