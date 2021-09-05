@@ -19,18 +19,13 @@ namespace FrequencyInputBox
 {
     public delegate void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e);
 
-    enum FrequencyChangingSource
-    {
-        InputString,
-        FrequencyValue
-    }
 
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
     public partial class FrequencyInputBox : UserControl, INotifyPropertyChanged
     {
-        FrequencyChangingSource frequencyChangingSource;
+
         public FrequencyInputBox()
         {
             InitializeComponent();
@@ -67,8 +62,13 @@ namespace FrequencyInputBox
 
         private void FrequencyInputBox_OnFrequencyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Frequency.FromHzInDouble(FrequencyValue);
-            OnSetFrequencyFromDouble();
+            Frequency.Hz = FrequencyValue;
+            if (frequencyChangingSource != FrequencyChangingSource.InputString)
+            {
+                Frequency.InputString = FrequencyValue.ToString() + " Hz";
+                OnPropertyChanged("InputString");
+                frequencyChangingSource = FrequencyChangingSource.InputString;
+            }
         }
         #endregion
 
@@ -79,44 +79,35 @@ namespace FrequencyInputBox
         {
             get
             {
-                return Frequency.ToString();
+                return Frequency.InputString;
             }
             set
             {
-
-                Frequency = Frequency.FromString(value);
-                OnPropertyChanged("Frequency");
-                OnSetFrequencyFromInputString();
+                frequencyChangingSource = FrequencyChangingSource.InputString;
+                FrequencyValue = Frequency.Hz;
+                
+                Frequency.InputString = value;
+                //OnPropertyChanged("Frequency");
+                
+                //                OnPropertyChanged("FrequencyValue");
+                
             }
         }
         #endregion
 
-        private Frequency frequency;
-        public Frequency Frequency
-        {
-            get
-            {
-                return frequency;
-            }
-            set
-            {
-                frequency = value;
-            }
-        }
+        private Frequency Frequency;
+        //public Frequency Frequency
+        //{
+        //    get
+        //    {
+        //        return frequency;
+        //    }
+        //    set
+        //    {
+        //        frequency = value;
+        //    }
+        //}
 
-        
-
-        void OnSetFrequencyFromInputString()
-        { 
-             FrequencyValue = Frequency.ToHzInDouble();
-             OnPropertyChanged("FrequencyValue");
-        }
-
-        void OnSetFrequencyFromDouble()
-        {
-            InputString = Frequency.ToString();
-            OnPropertyChanged("InputString");
-        }
 
 
         //internal void SetFrequencyFromDouble(double value)

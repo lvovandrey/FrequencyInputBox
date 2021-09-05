@@ -29,9 +29,9 @@ namespace FrequencyInputBox.Model
         }
         private string inputString;
         public string InputString
-        { 
+        {
             get { return inputString; }
-            set 
+            set
             {
                 inputString = value;
                 FromString(inputString);
@@ -109,7 +109,7 @@ namespace FrequencyInputBox.Model
             var unitsMatches = Regex.Matches(str, RegularExpressionPatterns.unitsPattern);
 
             if (mts.Count == 1)
-                FormatingValue += double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
+                FormatingValue = double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
             if (unitsMatches.Count == 1)
                 Unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
 
