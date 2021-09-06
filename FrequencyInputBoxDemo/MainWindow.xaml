@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrequencyInputBoxDemo"
-        xmlns:fib="clr-namespace:FrequencyInputBox;assembly=FrequencyInputBox"
         xmlns:fic="clr-namespace:FrequencyInputControl;assembly=FrequencyInputControl"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -16,6 +15,9 @@
                                             FrequencyValue="{Binding HZ, 
                                                              UpdateSourceTrigger=PropertyChanged,
                                                              Mode=TwoWay}"
+                                             UnitsInfoes="{Binding UnitsInfoes, 
+                                                          UpdateSourceTrigger=PropertyChanged,
+                                                             Mode=TwoWay}"
                      HorizontalAlignment="Left" VerticalAlignment="Center" Margin="100"/>
 
                 <TextBlock Text="{Binding IsLoading}" Width="100" Height="30" Grid.Row="1" HorizontalAlignment="Right"/>
@@ -23,6 +25,8 @@
 
                 <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,40,0,0" Width="100" Height="30" Click="Button_Click" Content="Start" />
                 <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,40,0,0" Width="100" Height="30" Click="Button_Click_1" Content="Stop" />
+                
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="400,40,0,0" Width="100" Height="30" Click="Button_Click_2"  Content="KG" />
 
                 </Grid>
 

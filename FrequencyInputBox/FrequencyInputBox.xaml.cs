@@ -56,8 +56,7 @@ namespace FrequencyInputBox
 
         private static void FrequencyInHzValuePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (((FrequencyInputBox)d).OnFrequencyInHzValueChanged != null)
-                ((FrequencyInputBox)d).OnFrequencyInHzValueChanged(d, e);
+            ((FrequencyInputBox)d).OnFrequencyInHzValueChanged?.Invoke(d, e);
         }
         public event PropertyChanged OnFrequencyInHzValueChanged;
 
@@ -115,8 +114,7 @@ namespace FrequencyInputBox
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         }
         #endregion

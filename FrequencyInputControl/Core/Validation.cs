@@ -2,17 +2,17 @@
 
 namespace FrequencyInputControl.Core
 {
-    public static class Validation
+    internal static class Validation
     {
         public static bool IsStringValid(string InputString)
         {
             var tmpStr = InputString.Replace(" ", "");
 
-            var validationMatches = Regex.Matches(tmpStr, RegularExpressionPatterns.fullStrValidationPattern);
+            var validationMatches = Regex.Matches(tmpStr, Settings.validationPattern);
             if (validationMatches.Count != 1)
                 return false;
 
-            validationMatches = Regex.Matches(tmpStr, RegularExpressionPatterns.unitsPattern);
+            validationMatches = Regex.Matches(tmpStr, Settings.unitsPattern);
             if (validationMatches.Count > 1)
                 return false;
 

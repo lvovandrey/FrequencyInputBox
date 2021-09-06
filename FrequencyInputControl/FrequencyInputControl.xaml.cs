@@ -31,6 +31,7 @@ namespace FrequencyInputControl
 
         public FrequencyInputControl()
         {
+            Settings.RefreshRegexPatterns();
             frequency = new Frequency();
             InitializeComponent();
         }
@@ -64,6 +65,28 @@ namespace FrequencyInputControl
         }
         #endregion
 
+        #region UnitsInfoes
+
+        public static readonly DependencyProperty UnitsInfoesProperty = DependencyProperty.Register(
+       "UnitsInfoes", typeof(List<UnitInfo>), typeof(FrequencyInputControl), 
+       new PropertyMetadata(OnUnitsInfoesChangedCallback));
+
+
+        private static void OnUnitsInfoesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            Settings.RefreshRegexPatterns();
+        }
+
+        public List<UnitInfo> UnitsInfoes
+        {
+            get { return (List<UnitInfo>)GetValue(UnitsInfoesProperty); }
+            set { 
+                SetValue(UnitsInfoesProperty, value);
+                Settings.unitsInfoes = value;
+                Settings.RefreshRegexPatterns();
+            }
+        }
+        #endregion
 
 
 
@@ -111,8 +134,7 @@ namespace FrequencyInputControl
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }

@@ -4,16 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace FrequencyInputControl.Core
 {
-    public enum UnitType
-    {
-        Hz,
-        kHz,
-        MHz,
-        GHz,
-        unknown
-    }
-
-    public class Frequency
+    internal class Frequency
     {
         #region ctor
         public Frequency()
@@ -110,8 +101,8 @@ namespace FrequencyInputControl.Core
 
         private void FromString(string str)
         {
-            var mts = Regex.Matches(str, RegularExpressionPatterns.numberPattern);
-            var unitsMatches = Regex.Matches(str, RegularExpressionPatterns.unitsPattern);
+            var mts = Regex.Matches(str, Settings.numberPattern);
+            var unitsMatches = Regex.Matches(str, Settings.unitsPattern);
 
             if (mts.Count == 1)
                 FormatingValue = double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);

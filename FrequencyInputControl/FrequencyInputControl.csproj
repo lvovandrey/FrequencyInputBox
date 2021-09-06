@@ -54,7 +54,8 @@
     </Page>
     <Compile Include="Converters\ValidityToColorConverter.cs" />
     <Compile Include="Core\Frequency.cs" />
-    <Compile Include="Core\RegularExpressionPatterns.cs" />
+    <Compile Include="Core\Settings.cs" />
+    <Compile Include="Core\UnitInfo.cs" />
     <Compile Include="Core\Validation.cs" />
     <Compile Include="FrequencyInputControl.xaml.cs">
       <DependentUpon>FrequencyInputControl.xaml</DependentUpon>

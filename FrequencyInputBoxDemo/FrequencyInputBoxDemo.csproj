@@ -97,10 +97,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FrequencyInputBox\FrequencyInputBox.csproj">
-      <Project>{8cff743d-1159-4217-8da9-4bcdeba4318e}</Project>
-      <Name>FrequencyInputBox</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FrequencyInputControl\FrequencyInputControl.csproj">
       <Project>{d7076ee2-572b-4d61-b767-989156f10809}</Project>
       <Name>FrequencyInputControl</Name>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrequencyInputControl.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,14 @@ namespace FrequencyInputBoxDemo
         {
             get { return Hz; }
             set { Hz = value; OnPropertyChanged(); }
+        }
+
+        private List<UnitInfo> unitsInfoes;
+
+        public List<UnitInfo> UnitsInfoes
+        {
+            get { return unitsInfoes; }
+            set { unitsInfoes = value; OnPropertyChanged(); }
         }
 
     }
