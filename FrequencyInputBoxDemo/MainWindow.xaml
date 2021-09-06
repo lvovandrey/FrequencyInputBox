@@ -13,6 +13,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns:local="clr-namespace:FrequencyInputBoxDemo"
         xmlns:fic="clr-namespace:PhisicalValueInputControl;assembly=FrequencyInputControl"
+        xmlns:ni="clr-namespace:NewInput;assembly=NewInput"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -34,6 +35,13 @@
                                                               UpdateSourceTrigger=PropertyChanged,
                                                               Mode=TwoWay}"/>
 
+            <ni:UserControl1 x:Name="LoadingIndicator2" Width="150"
+                                                 Value="{Binding HZ, 
+                                                              UpdateSourceTrigger=PropertyChanged,
+                                                              Mode=TwoWay}"
+                                                 UnitsInfoes="{Binding UnitsInfoes, 
+                                                              UpdateSourceTrigger=PropertyChanged,
+                                                              Mode=TwoWay}"/>
 
         </StackPanel>
         <StackPanel Margin="10" VerticalAlignment="Center">

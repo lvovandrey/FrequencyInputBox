@@ -1,16 +1,27 @@
-﻿using PhisicalValueInputControl.Core;
+﻿using NewInput.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace PhisicalValueInputControl
+namespace NewInput
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class PhisicalValueInputControl : UserControl, INotifyPropertyChanged
+    public partial class UserControl1 : UserControl
     {
         #region Fields
         /// <summary>
@@ -23,7 +34,7 @@ namespace PhisicalValueInputControl
         #endregion
 
         #region ctor
-        public PhisicalValueInputControl()
+        public UserControl1()
         {
             UnitsInfoes = Settings.DefaultUnitsInfoes;
             unit = new Unit();
@@ -35,12 +46,12 @@ namespace PhisicalValueInputControl
         #region Value
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
-       "Value", typeof(double), typeof(PhisicalValueInputControl), new PropertyMetadata(OnValueChangedCallback));
+       "Value", typeof(double), typeof(UserControl1), new PropertyMetadata(OnValueChangedCallback));
 
 
         private static void OnValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            var This = (PhisicalValueInputControl)d;
+            var This = (UserControl1)d;
             if (!This.IsChangingFromInputString)
             {
                 This.unit = new Unit(This.Value);
@@ -65,39 +76,40 @@ namespace PhisicalValueInputControl
         #region UnitsInfoes
 
         public static readonly DependencyProperty UnitsInfoesProperty = DependencyProperty.Register(
-       "UnitsInfoes", typeof(List<UnitInfo>), typeof(PhisicalValueInputControl), 
+       "UnitsInfoes", typeof(List<UnitInfo>), typeof(UserControl1),
        new PropertyMetadata(OnUnitsInfoesChangedCallback));
 
 
         private static void OnUnitsInfoesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var newUnitsInfoes = (List<UnitInfo>)args.NewValue;
-            if(newUnitsInfoes!=null)
+            if (newUnitsInfoes != null)
                 Settings.UnitsInfoes = (List<UnitInfo>)args.NewValue;
-            ((PhisicalValueInputControl)d).OnPropertyChanged("InputString");
-            ((PhisicalValueInputControl)d).OnPropertyChanged("Validity");
+            ((UserControl1)d).OnPropertyChanged("InputString");
+            ((UserControl1)d).OnPropertyChanged("Validity");
         }
 
         public List<UnitInfo> UnitsInfoes
         {
             get { return (List<UnitInfo>)GetValue(UnitsInfoesProperty); }
-            set { 
+            set
+            {
                 SetValue(UnitsInfoesProperty, value);
                 Settings.UnitsInfoes = value;
-             }
+            }
         }
         #endregion
 
         #region PhisicalValueName
 
         public static readonly DependencyProperty PhisicalValueNameProperty = DependencyProperty.Register(
-       "PhisicalValueName", typeof(string), typeof(PhisicalValueInputControl),
+       "PhisicalValueName", typeof(string), typeof(UserControl1),
        new PropertyMetadata(OnPhisicalValueNameChangedCallback));
 
 
         private static void OnPhisicalValueNameChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            ((PhisicalValueInputControl)d).Label1.Content = (string)args.NewValue;
+            ((UserControl1)d).Label1.Content = (string)args.NewValue;
         }
 
         public string PhisicalValueName
@@ -116,8 +128,7 @@ namespace PhisicalValueInputControl
             }
             set
             {
-                SetInputString(value);
-                OnPropertyChanged();
+               
             }
         }
 
@@ -135,7 +146,7 @@ namespace PhisicalValueInputControl
         {
             get
             {
-                return Core.Validation.IsStringValid(InputString);
+                return NewInput.Core.Validation.IsStringValid(InputString);
             }
         }
         #endregion
@@ -148,5 +159,19 @@ namespace PhisicalValueInputControl
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        private void TxtBlock1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.Key==Key.Enter)
+            {
+                SetInputString(TxtBlock1.Text);
+                OnPropertyChanged("InputString");
+                unit = new Unit(Value);
+                unit.FormatInBestUnits();
+                InputString = unit.InputString;
+                OnPropertyChanged("InputString");
+
+            }
+        }
     }
 }

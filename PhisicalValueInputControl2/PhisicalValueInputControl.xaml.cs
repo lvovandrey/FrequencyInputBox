@@ -65,14 +65,14 @@ namespace PhisicalValueInputControl
         #region UnitsInfoes
 
         public static readonly DependencyProperty UnitsInfoesProperty = DependencyProperty.Register(
-       "UnitsInfoes", typeof(List<UnitInfo>), typeof(PhisicalValueInputControl), 
+       "UnitsInfoes", typeof(List<UnitInfo>), typeof(PhisicalValueInputControl),
        new PropertyMetadata(OnUnitsInfoesChangedCallback));
 
 
         private static void OnUnitsInfoesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var newUnitsInfoes = (List<UnitInfo>)args.NewValue;
-            if(newUnitsInfoes!=null)
+            if (newUnitsInfoes != null)
                 Settings.UnitsInfoes = (List<UnitInfo>)args.NewValue;
             ((PhisicalValueInputControl)d).OnPropertyChanged("InputString");
             ((PhisicalValueInputControl)d).OnPropertyChanged("Validity");
@@ -81,10 +81,11 @@ namespace PhisicalValueInputControl
         public List<UnitInfo> UnitsInfoes
         {
             get { return (List<UnitInfo>)GetValue(UnitsInfoesProperty); }
-            set { 
+            set
+            {
                 SetValue(UnitsInfoesProperty, value);
                 Settings.UnitsInfoes = value;
-             }
+            }
         }
         #endregion
 
@@ -135,7 +136,7 @@ namespace PhisicalValueInputControl
         {
             get
             {
-                return Core.Validation.IsStringValid(InputString);
+                return PhisicalValueInputControl.Core.Validation.IsStringValid(InputString);
             }
         }
         #endregion
@@ -150,3 +151,4 @@ namespace PhisicalValueInputControl
         #endregion
     }
 }
+

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrequencyInputBoxDemo", "Fr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhisicalValueInputControl", "FrequencyInputControl\PhisicalValueInputControl.csproj", "{D7076EE2-572B-4D61-B767-989156F10809}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewInput", "NewInput\NewInput.csproj", "{4A2AE22A-E560-4248-BEC1-E20BEF16A9A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D7076EE2-572B-4D61-B767-989156F10809}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7076EE2-572B-4D61-B767-989156F10809}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7076EE2-572B-4D61-B767-989156F10809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A2AE22A-E560-4248-BEC1-E20BEF16A9A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A2AE22A-E560-4248-BEC1-E20BEF16A9A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A2AE22A-E560-4248-BEC1-E20BEF16A9A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A2AE22A-E560-4248-BEC1-E20BEF16A9A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
