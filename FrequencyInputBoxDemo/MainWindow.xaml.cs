@@ -45,7 +45,7 @@ namespace FrequencyInputBoxDemo
         
         private void Timer_Tick(object sender, object e)
         {
-            vm.FrequencyTest++;
+            vm.HZ++;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

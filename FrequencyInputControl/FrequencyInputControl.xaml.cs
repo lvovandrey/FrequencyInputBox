@@ -70,7 +70,7 @@ namespace FrequencyInputControl
 
 
 
-
+        #region InputString
         public string InputString
         {
             get
@@ -91,15 +91,20 @@ namespace FrequencyInputControl
             FrequencyValue = frequency.Hz;
             OnPropertyChanged("Validity");
         }
-        
-        
-        
-        //{
-        //    get { return FrequencyValue.ToString() + "Hz"; }
-        //    set { 
-        //        FrequencyValue = double.Parse(value.Replace("Hz", "")); 
-        //        OnPropertyChanged(); }
-        //}
+        #endregion
+
+
+
+        #region Validity Property
+        public bool Validity
+        {
+            get
+            {
+                return Core.Validation.IsStringValid(InputString);
+            }
+        }
+        #endregion
+
 
 
         #region INPC

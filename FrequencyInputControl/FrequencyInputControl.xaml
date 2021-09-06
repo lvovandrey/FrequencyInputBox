@@ -4,7 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FrequencyInputControl"
+             xmlns:converters="clr-namespace:FrequencyInputControl.Converters"
              mc:Ignorable="d" >
+    <UserControl.Resources>
+        <converters:ValidityToColorConverter x:Key="ValidityToColorConverter"/>
+    </UserControl.Resources>
     <Grid>
         <TextBox x:Name="TxtBlock1" 
                  Text="{Binding InputString, 
@@ -13,7 +17,14 @@
                                         UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                  Width="100" 
                  Height="22" 
-                 Background="Green"/>
+                 BorderBrush="{Binding Validity, 
+                               RelativeSource={RelativeSource FindAncestor, 
+                               AncestorType={x:Type local:FrequencyInputControl}},
+                               Converter={StaticResource ValidityToColorConverter}}"
+                 Foreground="{Binding Validity, 
+                               RelativeSource={RelativeSource FindAncestor, 
+                               AncestorType={x:Type local:FrequencyInputControl}},
+                               Converter={StaticResource ValidityToColorConverter}}"/>
 
     </Grid>
 </UserControl>
