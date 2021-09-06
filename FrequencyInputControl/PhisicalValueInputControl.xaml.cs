@@ -16,7 +16,7 @@ namespace PhisicalValueInputControl
         /// <summary>
         /// Флаг, показывающий откуда пришли изменения (из текстового поля или из свойства зависимости Value)
         /// У меня не получилось избавиться от цикличности при передачи значения из приложения и из текстового поля самого контроля
-        /// без этого костыля. Очень буду благодарен, если расскажете как от этого флага избавиться.
+        /// без этого костыля. Очень буду благодарен, если расскажете как от этого флага избавиться (думаю вообще иначе надо было все сделать, но как не знаю)
         /// </summary>
         private bool IsChangingFromInputString = false;
         private Unit unit;
@@ -25,12 +25,14 @@ namespace PhisicalValueInputControl
         #region ctor
         public PhisicalValueInputControl()
         {
-            UnitsInfoes = Settings.DefaultUnitsInfoes;
+            UnitsInfoes = Settings.DefaultUnitsInfoes; 
             unit = new Unit();
             InitializeComponent();
             PhisicalValueName = "Частота";
         }
         #endregion
+
+        #region Properties
 
         #region Value
 
@@ -63,7 +65,9 @@ namespace PhisicalValueInputControl
         #endregion
 
         #region UnitsInfoes
-
+        /// <summary>
+        /// Свойство которое позволяет передать сюда шкалу снаружи
+        /// </summary>
         public static readonly DependencyProperty UnitsInfoesProperty = DependencyProperty.Register(
        "UnitsInfoes", typeof(List<UnitInfo>), typeof(PhisicalValueInputControl), 
        new PropertyMetadata(OnUnitsInfoesChangedCallback));
@@ -89,7 +93,9 @@ namespace PhisicalValueInputControl
         #endregion
 
         #region PhisicalValueName
-
+        /// <summary>
+        /// Наименование физической величины - масса, скорость, частота  и т.п.
+        /// </summary>
         public static readonly DependencyProperty PhisicalValueNameProperty = DependencyProperty.Register(
        "PhisicalValueName", typeof(string), typeof(PhisicalValueInputControl),
        new PropertyMetadata(OnPhisicalValueNameChangedCallback));
@@ -108,6 +114,9 @@ namespace PhisicalValueInputControl
         #endregion
 
         #region InputString
+        /// <summary>
+        /// Строка ввода - это "представление" хранимой величины для элемента ввода и вывода (здесь - TextBox)
+        /// </summary>
         public string InputString
         {
             get
@@ -139,7 +148,9 @@ namespace PhisicalValueInputControl
             }
         }
         #endregion
-
+       
+        #endregion
+        
         #region INPC
         public event PropertyChangedEventHandler PropertyChanged;
 

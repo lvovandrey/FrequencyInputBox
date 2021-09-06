@@ -3,14 +3,16 @@
 namespace PhisicalValueInputControl.Core
 {
 
-
+    /// <summary>
+    /// Класс настроек - хранит паттерны регулярных выражений и (нарушение S из solid) коллекцию установленных пользователем данных о применяемых единицах измерений.
+    /// </summary>
     static class Settings
     {
-        public static string numberPattern = @"\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)"; //вообще-то должно работать с экспоненциальной записью, но что-то не работает
+        public static string numberPattern = @"\-?\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)"; //вообще-то должно работать с экспоненциальной записью, но что-то не работает
 
         public static string unitsPattern = @"(Hz$)|(kHz$)|(k$)|(M$)|(MHz$)|(G$)|(GHz$)";
 
-        public static string validationPattern = @"^((\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|))+)?((Hz$)|(kHz$)|(k$)|(M$)|(MHz$)|(G$)|(GHz$)?)$";
+        public static string validationPattern = @"^((\-?\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|))+)?((Hz$)|(kHz$)|(k$)|(M$)|(MHz$)|(G$)|(GHz$)?)$";
 
 
         public static List<UnitInfo> DefaultUnitsInfoes => new List<UnitInfo>

@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace PhisicalValueInputControl.Core
 {
+    /// <summary>
+    /// Собственно это - и есть "величина", содержит методы и свойства для отображения отформатированной строки и хранения значения величины
+    /// </summary>
     internal class Unit
     {
         #region ctor
@@ -98,6 +101,9 @@ namespace PhisicalValueInputControl.Core
             return U;
         }
 
+        /// <summary>
+        /// Применяется если нужно отформатировать величину в наиболее удачных единицах (например 1555Hz превратятся в 1,55kHz)
+        /// </summary>
         public void FormatInBestUnits()
         {
             UnitInfo = CalculateBestUnitsForValue(Value);
