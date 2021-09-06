@@ -106,13 +106,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FrequencyInputControl\PhisicalValueInputControl.csproj">
-      <Project>{d7076ee2-572b-4d61-b767-989156f10809}</Project>
-      <Name>PhisicalValueInputControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NewInput\ValueInputEVControl.csproj">
       <Project>{4a2ae22a-e560-4248-bec1-e20bef16a9a7}</Project>
       <Name>ValueInputEVControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PhisicalValueInputControl\PhisicalValueInputControl.csproj">
+      <Project>{d7076ee2-572b-4d61-b767-989156f10809}</Project>
+      <Name>PhisicalValueInputControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
