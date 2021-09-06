@@ -22,5 +22,14 @@ namespace FrequencyInputBoxDemo
             }
         }
 
+
+        private double Hz;
+
+        public double HZ
+        {
+            get { return Hz; }
+            set { Hz = value; OnPropertyChanged(); }
+        }
+
     }
 }

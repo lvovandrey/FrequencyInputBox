@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FrequencyInputBoxDemo
 {
@@ -7,12 +8,14 @@ namespace FrequencyInputBoxDemo
     /// </summary>
     public class INPCBase : INotifyPropertyChanged
     {
+        #region INPC
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion INPC
     }
 }
