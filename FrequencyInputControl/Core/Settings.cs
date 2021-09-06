@@ -6,26 +6,38 @@ namespace FrequencyInputControl.Core
 
     static class Settings
     {
-        public static string numberPattern = @"\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)";
+        public static string numberPattern = @"\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|)"; //вообще-то должно работать с экспоненциальной записью, но что-то не работает
 
         public static string unitsPattern = @"(Hz$)|(kHz$)|(k$)|(M$)|(MHz$)|(G$)|(GHz$)";
 
         public static string validationPattern = @"^((\d+(((\.|,)\d+|)+e(\+|-)\d+|(\.|,)\d+|))+)?((Hz$)|(kHz$)|(k$)|(M$)|(MHz$)|(G$)|(GHz$)?)$";
 
-        public static List<UnitInfo> unitsInfoes = new List<UnitInfo>
+
+        public static List<UnitInfo> DefaultUnitsInfoes => new List<UnitInfo>
         {
-            new UnitInfo(1, new string[]{"Hz", "H", "Гц"},"Hz"),
-            new UnitInfo(1000, new string[]{"kHz", "k", "кГц" },"kHz"),
-            new UnitInfo(1000_000, new string[]{"MHz", "M", "МГц" },"MHz"),
-            new UnitInfo(1000_000_000, new string[]{"GHz", "G", "ГГц" },"GHz"),
+            new UnitInfo(1, new string[]{"Hz", "H", "Гц"}),
+            new UnitInfo(1000, new string[]{"kHz", "k", "кГц" }),
+            new UnitInfo(1000_000, new string[]{"MHz", "M", "МГц" }),
+            new UnitInfo(1000_000_000, new string[]{"GHz", "G", "ГГц" })
         };
 
-        public static void RefreshRegexPatterns()
+        public static List<UnitInfo> _unitsInfoes;
+        public static List<UnitInfo> UnitsInfoes
+        { 
+            get { return _unitsInfoes; }
+            set { _unitsInfoes = value; RefreshRegexPatterns(_unitsInfoes); } 
+        }
+
+
+
+
+        private static void RefreshRegexPatterns(List<UnitInfo> unitsInfoes)
         {
-            unitsPattern = GentrateUnitsPattern(unitsInfoes);
+            unitsPattern = GentrateUnitsPattern(UnitsInfoes);
             validationPattern = GenerateValidationPattern(numberPattern, unitsPattern);
         }
 
+        #region privateMethods
         private static string GentrateUnitsPattern(List<UnitInfo> unitsInfoes)
         {
             string newUnitsPattern = "";
@@ -47,6 +59,7 @@ namespace FrequencyInputControl.Core
             newValidationPattern += @"(" + newUnitsPattern + @"?)$";
             return newValidationPattern;
         }
+        #endregion
 
     }
 }

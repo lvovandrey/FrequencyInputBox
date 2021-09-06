@@ -43,7 +43,9 @@
                     Content="Остановить счетчик" />
             <Button Click="Button_ChangeUnits_Click" 
                     Content="Заменить на граммы" />
-                </StackPanel>
+            <Button Click="Button_ChangeUnits2_Click" 
+                    Content="Заменить на герцы" />
+        </StackPanel>
 
     </Grid>
 </Window>

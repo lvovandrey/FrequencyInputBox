@@ -33,7 +33,7 @@ namespace FrequencyInputControl
 
         public FrequencyInputControl()
         {
-            Settings.RefreshRegexPatterns();
+            UnitsInfoes = Settings.DefaultUnitsInfoes;
             frequency = new Frequency();
             InitializeComponent();
             PhisicalValueName = "Частота";
@@ -51,12 +51,13 @@ namespace FrequencyInputControl
             if (!This.IsChangingFromInputString)
             {
                 This.frequency = new Frequency(This.FrequencyValue);
+                This.frequency.FormatInBestUnits();
                 This.InputString = This.frequency.InputString;
                 This.OnPropertyChanged("InputString");
             }
             else
             {
-                This.frequency = new Frequency(This.frequency.Hz, This.frequency.UnitInfo);
+                This.frequency = new Frequency(This.frequency.Value, This.frequency.UnitInfo);
             }
             This.IsChangingFromInputString = false;
         }
@@ -77,8 +78,9 @@ namespace FrequencyInputControl
 
         private static void OnUnitsInfoesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            Settings.unitsInfoes = (List<UnitInfo>)args.NewValue;
-            Settings.RefreshRegexPatterns();
+            var newUnitsInfoes = (List<UnitInfo>)args.NewValue;
+            if(newUnitsInfoes!=null)
+                Settings.UnitsInfoes = (List<UnitInfo>)args.NewValue;
             ((FrequencyInputControl)d).OnPropertyChanged("InputString");
             ((FrequencyInputControl)d).OnPropertyChanged("Validity");
         }
@@ -88,9 +90,8 @@ namespace FrequencyInputControl
             get { return (List<UnitInfo>)GetValue(UnitsInfoesProperty); }
             set { 
                 SetValue(UnitsInfoesProperty, value);
-                Settings.unitsInfoes = value;
-                Settings.RefreshRegexPatterns();
-            }
+                Settings.UnitsInfoes = value;
+             }
         }
         #endregion
 
@@ -131,7 +132,7 @@ namespace FrequencyInputControl
         {
             IsChangingFromInputString = true;
             frequency = new Frequency(str);
-            FrequencyValue = frequency.Hz;
+            FrequencyValue = frequency.Value;
             OnPropertyChanged("Validity");
         }
         #endregion

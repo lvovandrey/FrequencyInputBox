@@ -13,16 +13,16 @@ namespace FrequencyInputControl.Core
         public Frequency(double hz, UnitInfo unitInfo)
         {
             UnitInfo = unitInfo;
-            CalculateFormatingValueFromHz(hz, unitInfo);
+            Value = hz;
             GeneteateNewInputString();
         }
 
-        public Frequency(double hz) : this(hz, Settings.unitsInfoes.FirstOrDefault())
+        public Frequency(double hz) : this(hz, Settings.UnitsInfoes.FirstOrDefault())
         {
 
         }
 
-        public Frequency() : this(0, Settings.unitsInfoes.FirstOrDefault())
+        public Frequency() : this(0, Settings.UnitsInfoes.FirstOrDefault())
         {
 
         }
@@ -34,11 +34,15 @@ namespace FrequencyInputControl.Core
         #endregion
 
         #region Properties
-        public double FormatingValue { get; private set; }
+        public double FormatingValue
+        {
+            get { return Value / UnitInfo.coefficient; }
+            set { Value = value * UnitInfo.coefficient; }
+        }
 
         public UnitInfo UnitInfo { get; private set; }
 
-        public double Hz => ConvertToHz();
+        public double Value { get; private set; }
 
         private string inputString;
         public string InputString
@@ -58,10 +62,10 @@ namespace FrequencyInputControl.Core
             return FormatingValue * UnitInfo.coefficient;
         }
 
-        private void CalculateFormatingValueFromHz(double hz, UnitInfo unitInfo)
-        {
-            FormatingValue = hz / unitInfo.coefficient;
-        }
+        //public void CalculateFormatingValueFromHz(double hz, UnitInfo unitInfo)
+        //{
+        //    FormatingValue = hz / unitInfo.coefficient;
+        //}
 
         private void GeneteateNewInputString()
         {
@@ -71,28 +75,59 @@ namespace FrequencyInputControl.Core
             inputString = sb.ToString();
         }
 
+        private void GeneteateNewInputString(UnitInfo unitInfo)
+        {
+            StringBuilder sb = new StringBuilder("");
+            sb.Append(FormatingValue.ToString());
+            sb.Append(unitInfo.defaultString);
+            inputString = sb.ToString();
+        }
+
         private void FromString(string str)
         {
             var mts = Regex.Matches(str, Settings.numberPattern);
             var unitsMatches = Regex.Matches(str, Settings.unitsPattern);
 
-            if (mts.Count == 1)
-                FormatingValue = double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
             if (unitsMatches.Count == 1)
                 UnitInfo = ConvertStringToUnitInfo(unitsMatches[0].Value);
             if (unitsMatches.Count == 0)
-                UnitInfo = Settings.unitsInfoes.FirstOrDefault();
+                UnitInfo = Settings.UnitsInfoes.FirstOrDefault();
+            if (mts.Count == 1)
+                FormatingValue = double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
+
         }
 
         private static UnitInfo ConvertStringToUnitInfo(string value)
         {
-            var result = Settings.unitsInfoes.FirstOrDefault();
-            foreach (var uinfo in Settings.unitsInfoes)
+            var result = Settings.UnitsInfoes.FirstOrDefault();
+            foreach (var uinfo in Settings.UnitsInfoes)
                 foreach (var ps in uinfo.presentationStrings)
                     if (ps == value)
                         result =  uinfo;
             return result;
         }
+
+        private static UnitInfo CalculateBestUnitsForValue(double value)
+        { 
+            var UInfos = from u in Settings.UnitsInfoes
+                  orderby u.coefficient
+                  select u;
+            UnitInfo U = UInfos.FirstOrDefault();
+            foreach (var u in UInfos)
+            {
+                if (u.coefficient > value)
+                    break;
+                U = u;
+            }
+            return U;
+        }
+
+        public void FormatInBestUnits()
+        {
+            UnitInfo = CalculateBestUnitsForValue(Value);
+            GeneteateNewInputString(UnitInfo);
+        }
+
         #endregion
     }
 }
