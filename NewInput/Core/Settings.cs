@@ -28,16 +28,17 @@ namespace NewInput.Core
             set { _unitsInfoes = value; RefreshRegexPatterns(_unitsInfoes); } 
         }
 
-
-
-
+        #region privateMethods
+        /// <summary>
+        /// Обновить паттерны для регулярных выражений
+        /// </summary>
+        /// <param name="unitsInfoes"></param>
         private static void RefreshRegexPatterns(List<UnitInfo> unitsInfoes)
         {
             unitsPattern = GentrateUnitsPattern(UnitsInfoes);
             validationPattern = GenerateValidationPattern(numberPattern, unitsPattern);
         }
 
-        #region privateMethods
         private static string GentrateUnitsPattern(List<UnitInfo> unitsInfoes)
         {
             string newUnitsPattern = "";

@@ -110,9 +110,9 @@
       <Project>{d7076ee2-572b-4d61-b767-989156f10809}</Project>
       <Name>PhisicalValueInputControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewInput\NewInput.csproj">
+    <ProjectReference Include="..\NewInput\ValueInputEVControl.csproj">
       <Project>{4a2ae22a-e560-4248-bec1-e20bef16a9a7}</Project>
-      <Name>NewInput</Name>
+      <Name>ValueInputEVControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
