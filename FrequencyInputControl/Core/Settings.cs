@@ -14,10 +14,10 @@ namespace FrequencyInputControl.Core
 
         public static List<UnitInfo> unitsInfoes = new List<UnitInfo>
         {
-            new UnitInfo(UnitType.Hz, 1, new string[]{"Hz", "H", "Гц"},"Hz"),
-            new UnitInfo(UnitType.kHz, 1000, new string[]{"kHz", "k", "кГц" },"kHz"),
-            new UnitInfo(UnitType.MHz, 1000_000, new string[]{"MHz", "M", "МГц" },"MHz"),
-            new UnitInfo(UnitType.GHz, 1000_000_000, new string[]{"GHz", "G", "ГГц" },"GHz"),
+            new UnitInfo(1, new string[]{"Hz", "H", "Гц"},"Hz"),
+            new UnitInfo(1000, new string[]{"kHz", "k", "кГц" },"kHz"),
+            new UnitInfo(1000_000, new string[]{"MHz", "M", "МГц" },"MHz"),
+            new UnitInfo(1000_000_000, new string[]{"GHz", "G", "ГГц" },"GHz"),
         };
 
         public static void RefreshRegexPatterns()

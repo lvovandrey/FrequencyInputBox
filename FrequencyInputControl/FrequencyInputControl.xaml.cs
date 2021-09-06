@@ -25,6 +25,8 @@ namespace FrequencyInputControl
     {
         /// <summary>
         /// Флаг, показывающий откуда пришли изменения (из текстового поля или из свойства зависимости FrequencyInHzValue)
+        /// У меня не получилось избавиться от цикличности при передачи значения из приложения и из текстового поля самого контроля
+        /// без этого костыля. Очень буду благодарен, если расскажете как от этого флага избавиться.
         /// </summary>
         private bool IsChangingFromInputString = false;
         private Frequency frequency;
@@ -34,6 +36,7 @@ namespace FrequencyInputControl
             Settings.RefreshRegexPatterns();
             frequency = new Frequency();
             InitializeComponent();
+            PhisicalValueName = "Частота";
         }
 
         #region FrequencyValue
@@ -53,7 +56,7 @@ namespace FrequencyInputControl
             }
             else
             {
-                This.frequency = new Frequency(This.frequency.Hz, This.frequency.Unit);
+                This.frequency = new Frequency(This.frequency.Hz, This.frequency.UnitInfo);
             }
             This.IsChangingFromInputString = false;
         }
@@ -74,7 +77,10 @@ namespace FrequencyInputControl
 
         private static void OnUnitsInfoesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
+            Settings.unitsInfoes = (List<UnitInfo>)args.NewValue;
             Settings.RefreshRegexPatterns();
+            ((FrequencyInputControl)d).OnPropertyChanged("InputString");
+            ((FrequencyInputControl)d).OnPropertyChanged("Validity");
         }
 
         public List<UnitInfo> UnitsInfoes
@@ -88,9 +94,24 @@ namespace FrequencyInputControl
         }
         #endregion
 
+        #region PhisicalValueName
+
+        public static readonly DependencyProperty PhisicalValueNameProperty = DependencyProperty.Register(
+       "PhisicalValueName", typeof(string), typeof(FrequencyInputControl),
+       new PropertyMetadata(OnPhisicalValueNameChangedCallback));
 
 
+        private static void OnPhisicalValueNameChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            ((FrequencyInputControl)d).Label1.Content = (string)args.NewValue;
+        }
 
+        public string PhisicalValueName
+        {
+            get { return (string)GetValue(PhisicalValueNameProperty); }
+            set { SetValue(PhisicalValueNameProperty, value); }
+        }
+        #endregion
 
         #region InputString
         public string InputString

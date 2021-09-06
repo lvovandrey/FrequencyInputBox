@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Content="Частота"/>
+        <Label Content="{Binding PhisicalValueName, UpdateSourceTrigger=PropertyChanged}" x:Name="Label1"/>
         <TextBox x:Name="TxtBlock1" Grid.Row="1" 
                  Text="{Binding InputString, 
                         RelativeSource={RelativeSource FindAncestor, 

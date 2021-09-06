@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,18 +8,23 @@ namespace FrequencyInputControl.Core
     internal class Frequency
     {
         #region ctor
-        public Frequency()
+
+
+        public Frequency(double hz, UnitInfo unitInfo)
         {
-            FormatingValue = 0;
-            Unit = UnitType.Hz;
+            UnitInfo = unitInfo;
+            CalculateFormatingValueFromHz(hz, unitInfo);
             GeneteateNewInputString();
         }
 
-        public Frequency(double hz, UnitType unitType = UnitType.Hz)
+        public Frequency(double hz) : this(hz, Settings.unitsInfoes.FirstOrDefault())
         {
-            Unit = unitType;
-            CalculateFormatingValueFromHz(hz, unitType);
-            GeneteateNewInputString();
+
+        }
+
+        public Frequency() : this(0, Settings.unitsInfoes.FirstOrDefault())
+        {
+
         }
 
         public Frequency(string inputString)
@@ -30,7 +36,7 @@ namespace FrequencyInputControl.Core
         #region Properties
         public double FormatingValue { get; private set; }
 
-        public UnitType Unit { get; private set; }
+        public UnitInfo UnitInfo { get; private set; }
 
         public double Hz => ConvertToHz();
 
@@ -49,53 +55,19 @@ namespace FrequencyInputControl.Core
         #region Methods
         private double ConvertToHz()
         {
-            switch (Unit)
-            {
-                case UnitType.Hz: return FormatingValue;
-                case UnitType.kHz: return FormatingValue * 1000;
-                case UnitType.MHz: return FormatingValue * 1_000_000;
-                case UnitType.GHz: return FormatingValue * 1_000_000_000;
-                default: return FormatingValue;
-            }
+            return FormatingValue * UnitInfo.coefficient;
         }
 
-        private void CalculateFormatingValueFromHz(double hz, UnitType unitType)
+        private void CalculateFormatingValueFromHz(double hz, UnitInfo unitInfo)
         {
-            switch (Unit)
-            {
-                case UnitType.Hz: FormatingValue = hz; break;
-                case UnitType.kHz: FormatingValue = hz / 1000; break;
-                case UnitType.MHz: FormatingValue = hz / 1000_000; break;
-                case UnitType.GHz: FormatingValue = hz / 1000_000_000; break;
-                default: FormatingValue = hz; break;
-            }
+            FormatingValue = hz / unitInfo.coefficient;
         }
 
         private void GeneteateNewInputString()
         {
             StringBuilder sb = new StringBuilder("");
             sb.Append(FormatingValue.ToString());
-            switch (Unit)
-            {
-                case UnitType.Hz:
-                    sb.Append(" Hz");
-                    break;
-                case UnitType.kHz:
-                    sb.Append(" kHz");
-                    break;
-                case UnitType.MHz:
-                    sb.Append(" MHz");
-                    break;
-                case UnitType.GHz:
-                    sb.Append(" GHz");
-                    break;
-                case UnitType.unknown:
-                    sb.Append(" Unknown");
-                    break;
-                default:
-                    sb.Append(" Unknown");
-                    break;
-            }
+            sb.Append(UnitInfo.defaultString);
             inputString = sb.ToString();
         }
 
@@ -107,31 +79,19 @@ namespace FrequencyInputControl.Core
             if (mts.Count == 1)
                 FormatingValue = double.Parse(mts[0].Value.Replace(',', '.'), CultureInfo.InvariantCulture);
             if (unitsMatches.Count == 1)
-                Unit = Frequency.ConvertStringToUnitType(unitsMatches[0].Value);
+                UnitInfo = ConvertStringToUnitInfo(unitsMatches[0].Value);
             if (unitsMatches.Count == 0)
-                Unit = UnitType.Hz;
+                UnitInfo = Settings.unitsInfoes.FirstOrDefault();
         }
 
-        private static UnitType ConvertStringToUnitType(string value)
+        private static UnitInfo ConvertStringToUnitInfo(string value)
         {
-            switch (value)
-            {
-                case "Hz":
-                case "Гц":
-                case "H":
-                case "h": return UnitType.Hz;
-                case "kHz":
-                case "кГц":
-                case "К":
-                case "k": return UnitType.kHz;
-                case "MHz":
-                case "МГц":
-                case "M": return UnitType.MHz;
-                case "GHz":
-                case "ГГц":
-                case "G": return UnitType.GHz;
-                default: return UnitType.unknown;
-            }
+            var result = Settings.unitsInfoes.FirstOrDefault();
+            foreach (var uinfo in Settings.unitsInfoes)
+                foreach (var ps in uinfo.presentationStrings)
+                    if (ps == value)
+                        result =  uinfo;
+            return result;
         }
         #endregion
     }

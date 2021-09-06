@@ -36,7 +36,7 @@ namespace FrequencyInputBoxDemo
 
         #region Тест для контрола - 
         DispatcherTimer timer;
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Start_Click(object sender, RoutedEventArgs e)
         {
             timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 10) };
             timer.Tick += Timer_Tick;
@@ -49,22 +49,23 @@ namespace FrequencyInputBoxDemo
             vm.HZ++;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Stop_Click(object sender, RoutedEventArgs e)
         {
             timer?.Stop();
         }
         #endregion
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Button_ChangeUnits_Click(object sender, RoutedEventArgs e)
         {
             vm.UnitsInfoes = new List<UnitInfo>
             {
-            new UnitInfo(UnitType.Hz, 0.001, new string[]{"mg", "мг"},"mg"),
-            new UnitInfo(UnitType.Hz, 1, new string[]{"g", "г"},"g"),
-            new UnitInfo(UnitType.kHz, 1000, new string[]{"kg", "кг" },"kg"),
-            new UnitInfo(UnitType.MHz, 1000_000, new string[]{"t", "т"},"t"),
-            new UnitInfo(UnitType.GHz, 1000_000_000, new string[]{"kt", "кт" },"kt")
+            new UnitInfo(1, new string[]{"g", "г"},"g"),
+            new UnitInfo(0.001, new string[]{"mg", "мг"},"mg"),
+            new UnitInfo(1000, new string[]{"kg", "кг" },"kg"),
+            new UnitInfo(1000_000, new string[]{"t", "т"},"t"),
+            new UnitInfo(1000_000_000, new string[]{"kt", "кт" },"kt")
             };
+            LoadingIndicator1.PhisicalValueName = "Вес";
         }
     }
 }
