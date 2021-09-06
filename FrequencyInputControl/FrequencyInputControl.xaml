@@ -10,7 +10,12 @@
         <converters:ValidityToColorConverter x:Key="ValidityToColorConverter"/>
     </UserControl.Resources>
     <Grid>
-        <TextBox x:Name="TxtBlock1" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Частота"/>
+        <TextBox x:Name="TxtBlock1" Grid.Row="1" 
                  Text="{Binding InputString, 
                         RelativeSource={RelativeSource FindAncestor, 
                                         AncestorType={x:Type local:FrequencyInputControl}}, 

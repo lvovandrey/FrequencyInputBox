@@ -44,7 +44,6 @@ namespace FrequencyInputControl
         private static void OnFrequencyValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var This = (FrequencyInputControl)d;
-            This.OnPropertyChanged("InputString");
             if (!This.IsChangingFromInputString)
             {
                 This.frequency = new Frequency(This.FrequencyValue);
