@@ -1,4 +1,5 @@
 ﻿using PhisicalValueInputControl.Core;
+using NewInput.Core;
 using System.Collections.Generic;
 
 namespace FrequencyInputBoxDemo
@@ -28,12 +29,20 @@ namespace FrequencyInputBoxDemo
             set { Hz = value; OnPropertyChanged(); }
         }
 
-        private List<UnitInfo> unitsInfoes;
+        private List<PhisicalValueInputControl.Core.UnitInfo> unitsInfoes;
 
-        public List<UnitInfo> UnitsInfoes
+        public List<PhisicalValueInputControl.Core.UnitInfo> UnitsInfoes
         {
             get { return unitsInfoes; }
             set { unitsInfoes = value; OnPropertyChanged(); }
+        }
+
+        private List<NewInput.Core.UnitInfo> unitsInfoes2;
+
+        public List<NewInput.Core.UnitInfo> UnitsInfoes2
+        {
+            get { return unitsInfoes2; }
+            set { unitsInfoes2 = value; OnPropertyChanged(); }
         }
 
     }

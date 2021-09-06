@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center">
-            <fic:PhisicalValueInputControl x:Name="LoadingIndicator1" Width="150"
+            <fic:PhisicalValueInputControl x:Name="Indicator1" Width="150"
                                                  Value="{Binding HZ, 
                                                               UpdateSourceTrigger=PropertyChanged,
                                                               Mode=TwoWay}"
@@ -35,11 +35,11 @@
                                                               UpdateSourceTrigger=PropertyChanged,
                                                               Mode=TwoWay}"/>
 
-            <ni:UserControl1 x:Name="LoadingIndicator2" Width="150"
+            <ni:UserControl1 x:Name="Indicator2" Width="150"
                                                  Value="{Binding HZ, 
                                                               UpdateSourceTrigger=PropertyChanged,
                                                               Mode=TwoWay}"
-                                                 UnitsInfoes="{Binding UnitsInfoes, 
+                                                 UnitsInfoes="{Binding UnitsInfoes2, 
                                                               UpdateSourceTrigger=PropertyChanged,
                                                               Mode=TwoWay}"/>
 

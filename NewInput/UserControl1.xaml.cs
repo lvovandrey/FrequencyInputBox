@@ -21,7 +21,7 @@ namespace NewInput
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class UserControl1 : UserControl, INotifyPropertyChanged
     {
         #region Fields
         /// <summary>
@@ -128,7 +128,8 @@ namespace NewInput
             }
             set
             {
-                refresh();
+                TxtBlock1.Text = unit.InputString;
+                OnPropertyChanged("Validity");
             }
         }
 
@@ -146,7 +147,7 @@ namespace NewInput
         {
             get
             {
-                return NewInput.Core.Validation.IsStringValid(InputString);
+                return Core.Validation.IsStringValid(TxtBlock1.Text);
             }
         }
         #endregion
@@ -162,20 +163,17 @@ namespace NewInput
 
         private void TxtBlock1_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.Key==Key.Enter)
+            
+            OnPropertyChanged("Validity");
+            if (e.Key==Key.Enter)
             {
                 SetInputString(TxtBlock1.Text);
                 TxtBlock1.Text= unit.InputString;
                 OnPropertyChanged("InputString");
-                OnPropertyChanged("Validity");
-
             }
+
         }
 
-        private void refresh()
-        {
-            TxtBlock1.Text = unit.InputString;
-            OnPropertyChanged("Validity");
-        }
+
     }
 }
