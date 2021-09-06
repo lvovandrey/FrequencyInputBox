@@ -1,78 +1,73 @@
-﻿using FrequencyInputControl.Core;
-using System;
+﻿using PhisicalValueInputControl.Core;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace FrequencyInputControl
+namespace PhisicalValueInputControl
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class FrequencyInputControl : UserControl, INotifyPropertyChanged
+    public partial class PhisicalValueInputControl : UserControl, INotifyPropertyChanged
     {
+        #region Fields
         /// <summary>
-        /// Флаг, показывающий откуда пришли изменения (из текстового поля или из свойства зависимости FrequencyInHzValue)
+        /// Флаг, показывающий откуда пришли изменения (из текстового поля или из свойства зависимости Value)
         /// У меня не получилось избавиться от цикличности при передачи значения из приложения и из текстового поля самого контроля
         /// без этого костыля. Очень буду благодарен, если расскажете как от этого флага избавиться.
         /// </summary>
         private bool IsChangingFromInputString = false;
-        private Frequency frequency;
+        private Unit unit;
+        #endregion
 
-        public FrequencyInputControl()
+        #region ctor
+        public PhisicalValueInputControl()
         {
             UnitsInfoes = Settings.DefaultUnitsInfoes;
-            frequency = new Frequency();
+            unit = new Unit();
             InitializeComponent();
             PhisicalValueName = "Частота";
         }
+        #endregion
 
-        #region FrequencyValue
+        #region Value
 
-        public static readonly DependencyProperty FrequencyValueProperty = DependencyProperty.Register(
-       "FrequencyValue", typeof(double), typeof(FrequencyInputControl), new PropertyMetadata(OnFrequencyValueChangedCallback));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+       "Value", typeof(double), typeof(PhisicalValueInputControl), new PropertyMetadata(OnValueChangedCallback));
 
 
-        private static void OnFrequencyValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        private static void OnValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            var This = (FrequencyInputControl)d;
+            var This = (PhisicalValueInputControl)d;
             if (!This.IsChangingFromInputString)
             {
-                This.frequency = new Frequency(This.FrequencyValue);
-                This.frequency.FormatInBestUnits();
-                This.InputString = This.frequency.InputString;
+                This.unit = new Unit(This.Value);
+                This.unit.FormatInBestUnits();
+                This.InputString = This.unit.InputString;
                 This.OnPropertyChanged("InputString");
             }
             else
             {
-                This.frequency = new Frequency(This.frequency.Value, This.frequency.UnitInfo);
+                This.unit = new Unit(This.unit.Value, This.unit.UnitInfo);
             }
             This.IsChangingFromInputString = false;
         }
 
-        public double FrequencyValue
+        public double Value
         {
-            get { return (double)GetValue(FrequencyValueProperty); }
-            set { SetValue(FrequencyValueProperty, value); }
+            get { return (double)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
         #endregion
 
         #region UnitsInfoes
 
         public static readonly DependencyProperty UnitsInfoesProperty = DependencyProperty.Register(
-       "UnitsInfoes", typeof(List<UnitInfo>), typeof(FrequencyInputControl), 
+       "UnitsInfoes", typeof(List<UnitInfo>), typeof(PhisicalValueInputControl), 
        new PropertyMetadata(OnUnitsInfoesChangedCallback));
 
 
@@ -81,8 +76,8 @@ namespace FrequencyInputControl
             var newUnitsInfoes = (List<UnitInfo>)args.NewValue;
             if(newUnitsInfoes!=null)
                 Settings.UnitsInfoes = (List<UnitInfo>)args.NewValue;
-            ((FrequencyInputControl)d).OnPropertyChanged("InputString");
-            ((FrequencyInputControl)d).OnPropertyChanged("Validity");
+            ((PhisicalValueInputControl)d).OnPropertyChanged("InputString");
+            ((PhisicalValueInputControl)d).OnPropertyChanged("Validity");
         }
 
         public List<UnitInfo> UnitsInfoes
@@ -98,13 +93,13 @@ namespace FrequencyInputControl
         #region PhisicalValueName
 
         public static readonly DependencyProperty PhisicalValueNameProperty = DependencyProperty.Register(
-       "PhisicalValueName", typeof(string), typeof(FrequencyInputControl),
+       "PhisicalValueName", typeof(string), typeof(PhisicalValueInputControl),
        new PropertyMetadata(OnPhisicalValueNameChangedCallback));
 
 
         private static void OnPhisicalValueNameChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            ((FrequencyInputControl)d).Label1.Content = (string)args.NewValue;
+            ((PhisicalValueInputControl)d).Label1.Content = (string)args.NewValue;
         }
 
         public string PhisicalValueName
@@ -119,7 +114,7 @@ namespace FrequencyInputControl
         {
             get
             {
-                return frequency.InputString;
+                return unit.InputString;
             }
             set
             {
@@ -131,13 +126,11 @@ namespace FrequencyInputControl
         private void SetInputString(string str)
         {
             IsChangingFromInputString = true;
-            frequency = new Frequency(str);
-            FrequencyValue = frequency.Value;
+            unit = new Unit(str);
+            Value = unit.Value;
             OnPropertyChanged("Validity");
         }
         #endregion
-
-
 
         #region Validity Property
         public bool Validity
@@ -148,8 +141,6 @@ namespace FrequencyInputControl
             }
         }
         #endregion
-
-
 
         #region INPC
         public event PropertyChangedEventHandler PropertyChanged;

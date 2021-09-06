@@ -1,9 +1,5 @@
-﻿using FrequencyInputControl.Core;
-using System;
+﻿using PhisicalValueInputControl.Core;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FrequencyInputBoxDemo
 {

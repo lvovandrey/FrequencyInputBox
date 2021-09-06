@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FrequencyInputControl.Core
+namespace PhisicalValueInputControl.Core
 {
 
 

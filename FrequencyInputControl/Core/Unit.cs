@@ -3,31 +3,23 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace FrequencyInputControl.Core
+namespace PhisicalValueInputControl.Core
 {
-    internal class Frequency
+    internal class Unit
     {
         #region ctor
-
-
-        public Frequency(double hz, UnitInfo unitInfo)
+        public Unit(double value, UnitInfo unitInfo)
         {
             UnitInfo = unitInfo;
-            Value = hz;
-            GeneteateNewInputString();
+            Value = value;
+            GeneteateNewInputString(UnitInfo);
         }
 
-        public Frequency(double hz) : this(hz, Settings.UnitsInfoes.FirstOrDefault())
-        {
+        public Unit(double value) : this(value, Settings.UnitsInfoes.FirstOrDefault()) { }
 
-        }
+        public Unit() : this(0, Settings.UnitsInfoes.FirstOrDefault()) { }
 
-        public Frequency() : this(0, Settings.UnitsInfoes.FirstOrDefault())
-        {
-
-        }
-
-        public Frequency(string inputString)
+        public Unit(string inputString)
         {
             InputString = inputString;
         }
@@ -54,26 +46,10 @@ namespace FrequencyInputControl.Core
                 FromString(inputString);
             }
         }
+
         #endregion
 
         #region Methods
-        private double ConvertToHz()
-        {
-            return FormatingValue * UnitInfo.coefficient;
-        }
-
-        //public void CalculateFormatingValueFromHz(double hz, UnitInfo unitInfo)
-        //{
-        //    FormatingValue = hz / unitInfo.coefficient;
-        //}
-
-        private void GeneteateNewInputString()
-        {
-            StringBuilder sb = new StringBuilder("");
-            sb.Append(FormatingValue.ToString());
-            sb.Append(UnitInfo.defaultString);
-            inputString = sb.ToString();
-        }
 
         private void GeneteateNewInputString(UnitInfo unitInfo)
         {

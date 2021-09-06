@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrequencyInputBoxDemo"
-        xmlns:fic="clr-namespace:FrequencyInputControl;assembly=FrequencyInputControl"
+        xmlns:fic="clr-namespace:PhisicalValueInputControl;assembly=FrequencyInputControl"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
@@ -23,15 +23,18 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-        <fic:FrequencyInputControl Grid.Column="1" Panel.ZIndex="1" x:Name="LoadingIndicator1"
-                                            FrequencyValue="{Binding HZ, 
-                                                             UpdateSourceTrigger=PropertyChanged,
-                                                             Mode=TwoWay}"
-                                             UnitsInfoes="{Binding UnitsInfoes, 
-                                                          UpdateSourceTrigger=PropertyChanged,
-                                                          Mode=TwoWay}"
-                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        
+        <StackPanel HorizontalAlignment="Center" Grid.Column="1">
+            <fic:PhisicalValueInputControl x:Name="LoadingIndicator1" Width="150"
+                                                 Value="{Binding HZ, 
+                                                              UpdateSourceTrigger=PropertyChanged,
+                                                              Mode=TwoWay}"
+                                                 UnitsInfoes="{Binding UnitsInfoes, 
+                                                              UpdateSourceTrigger=PropertyChanged,
+                                                              Mode=TwoWay}"/>
+            
 
+        </StackPanel>
         <StackPanel Margin="10" VerticalAlignment="Center">
             <Label Content="Значение частоты задаваемое через VM"/>
             <TextBox Text="{Binding HZ, UpdateSourceTrigger=PropertyChanged}" />

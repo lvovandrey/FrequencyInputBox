@@ -97,9 +97,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FrequencyInputControl\FrequencyInputControl.csproj">
+    <ProjectReference Include="..\FrequencyInputControl\PhisicalValueInputControl.csproj">
       <Project>{d7076ee2-572b-4d61-b767-989156f10809}</Project>
-      <Name>FrequencyInputControl</Name>
+      <Name>PhisicalValueInputControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

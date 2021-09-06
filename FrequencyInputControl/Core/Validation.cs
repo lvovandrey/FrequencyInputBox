@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace FrequencyInputControl.Core
+namespace PhisicalValueInputControl.Core
 {
     internal static class Validation
     {

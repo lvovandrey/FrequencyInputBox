@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrequencyInputBoxDemo", "FrequencyInputBoxDemo\FrequencyInputBoxDemo.csproj", "{683F1201-9607-4416-A8B6-0918F06517C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrequencyInputControl", "FrequencyInputControl\FrequencyInputControl.csproj", "{D7076EE2-572B-4D61-B767-989156F10809}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhisicalValueInputControl", "FrequencyInputControl\PhisicalValueInputControl.csproj", "{D7076EE2-572B-4D61-B767-989156F10809}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

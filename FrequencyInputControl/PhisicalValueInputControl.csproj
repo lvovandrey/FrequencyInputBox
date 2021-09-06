@@ -48,17 +48,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FrequencyInputControl.xaml">
+    <Page Include="PhisicalValueInputControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Converters\ValidityToColorConverter.cs" />
-    <Compile Include="Core\Frequency.cs" />
+    <Compile Include="Core\Unit.cs" />
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Core\UnitInfo.cs" />
     <Compile Include="Core\Validation.cs" />
-    <Compile Include="FrequencyInputControl.xaml.cs">
-      <DependentUpon>FrequencyInputControl.xaml</DependentUpon>
+    <Compile Include="PhisicalValueInputControl.xaml.cs">
+      <DependentUpon>PhisicalValueInputControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

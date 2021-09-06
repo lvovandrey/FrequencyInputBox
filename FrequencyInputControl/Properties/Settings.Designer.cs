@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FrequencyInputControl.Properties
+namespace PhisicalValueInputControl.Properties
 {
     
     
