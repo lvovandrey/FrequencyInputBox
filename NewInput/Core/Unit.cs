@@ -51,7 +51,7 @@ namespace NewInput.Core
 
         #region Methods
 
-        private void GeneteateNewInputString(UnitInfo unitInfo)
+        public void GeneteateNewInputString(UnitInfo unitInfo)
         {
             StringBuilder sb = new StringBuilder("");
             sb.Append(FormatingValue.ToString());
@@ -103,6 +103,7 @@ namespace NewInput.Core
             UnitInfo = CalculateBestUnitsForValue(Value);
             GeneteateNewInputString(UnitInfo);
         }
+
 
         #endregion
     }

@@ -128,7 +128,7 @@ namespace NewInput
             }
             set
             {
-               
+                refresh();
             }
         }
 
@@ -165,13 +165,17 @@ namespace NewInput
             if(e.Key==Key.Enter)
             {
                 SetInputString(TxtBlock1.Text);
+                TxtBlock1.Text= unit.InputString;
                 OnPropertyChanged("InputString");
-                unit = new Unit(Value);
-                unit.FormatInBestUnits();
-                InputString = unit.InputString;
-                OnPropertyChanged("InputString");
+                OnPropertyChanged("Validity");
 
             }
+        }
+
+        private void refresh()
+        {
+            TxtBlock1.Text = unit.InputString;
+            OnPropertyChanged("Validity");
         }
     }
 }
